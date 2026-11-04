@@ -19,9 +19,11 @@ function HomeContent() {
     }
   }, [tabParam]);
 
-  const handleTabChange = (tab: "shortener" | "downloader") => {
+  const handleTabChange = (tab: "shortener" | "downloader", prefillUrl?: string) => {
     setActiveTab(tab);
-    const newUrl = tab === "downloader" ? "/?tab=downloader" : "/?tab=shortener";
+    const newUrl = prefillUrl
+      ? `/?tab=${tab}&url=${encodeURIComponent(prefillUrl)}`
+      : `/?tab=${tab}`;
     window.history.pushState(null, "", newUrl);
   };
 
@@ -89,7 +91,11 @@ function HomeContent() {
 
       {/* Ferramenta Ativa */}
       <div className="w-full relative z-10 mb-16">
-        {activeTab === "shortener" ? <ShortenerForm /> : <DownloaderForm />}
+        {activeTab === "shortener" ? (
+          <ShortenerForm onSwitchToDownloader={(videoUrl) => handleTabChange("downloader", videoUrl)} />
+        ) : (
+          <DownloaderForm />
+        )}
       </div>
 
       {/* Grid de Diferenciais */}

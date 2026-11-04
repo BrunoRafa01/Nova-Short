@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Sparkles, QrCode, ExternalLink, ArrowRight, Clock, Key, BarChart2 } from "lucide-react";
+import { Link2, Sparkles, QrCode, ExternalLink, ArrowRight, Clock, Key, BarChart2, Video, Download } from "lucide-react";
 import { CopyButton } from "./CopyButton";
 import { QRCodeModal } from "./QRCodeModal";
 import Link from "next/link";
@@ -16,7 +16,28 @@ interface ShortenResult {
   expiresAt?: string;
 }
 
-export function ShortenerForm() {
+interface ShortenerFormProps {
+  onSwitchToDownloader?: (url: string) => void;
+}
+
+function checkVideoPlatform(targetUrl: string): { isVideo: boolean; platformName: string } {
+  const lower = targetUrl.toLowerCase();
+  if (lower.includes("youtube.com") || lower.includes("youtu.be")) {
+    return { isVideo: true, platformName: "YouTube" };
+  }
+  if (lower.includes("tiktok.com")) {
+    return { isVideo: true, platformName: "TikTok" };
+  }
+  if (lower.includes("instagram.com")) {
+    return { isVideo: true, platformName: "Instagram" };
+  }
+  if (lower.includes("twitter.com") || lower.includes("x.com")) {
+    return { isVideo: true, platformName: "X (Twitter)" };
+  }
+  return { isVideo: false, platformName: "" };
+}
+
+export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {}) {
   const [url, setUrl] = useState("");
   const [customSlug, setCustomSlug] = useState("");
   const [title, setTitle] = useState("");
@@ -28,9 +49,15 @@ export function ShortenerForm() {
   const [result, setResult] = useState<ShortenResult | null>(null);
   const [showQR, setShowQR] = useState(false);
 
+  const videoInfo = checkVideoPlatform(url);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!url.trim()) return;
+
+    // Normalização automática: adiciona https:// se o usuário colar sem protocolo
+    const rawUrl = url.trim();
+    const normalizedUrl = /^https?:\/\//i.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
 
     setLoading(true);
     setError(null);
@@ -40,7 +67,7 @@ export function ShortenerForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          url: url.trim(),
+          url: normalizedUrl,
           customSlug: customSlug.trim() || undefined,
           title: title.trim() || undefined,
           expiresAt: expiresAt ? new Date(expiresAt).toISOString() : undefined,
@@ -78,7 +105,7 @@ export function ShortenerForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="url-input" className="block text-xs font-semibold uppercase tracking-wider text-[#94A3B8] mb-2">
-              URL de Destino
+              URL de Destino (Sites, YouTube, TikTok, Instagram...)
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#64748B]">
@@ -86,14 +113,36 @@ export function ShortenerForm() {
               </div>
               <input
                 id="url-input"
-                type="url"
+                type="text"
                 required
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://exemplo.com/seu-link-longo-aqui"
+                placeholder="https://exemplo.com ou youtube.com, tiktok.com/@usuario..."
                 className="w-full pl-11 pr-4 py-3 bg-[#080C15] border border-[#1E2C48] rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] text-sm transition-colors"
               />
             </div>
+
+            {/* Notificação Inteligente de Mídia */}
+            {videoInfo.isVideo && (
+              <div className="mt-2.5 p-3 rounded-xl bg-[#3B82F6]/10 border border-[#3B82F6]/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs animate-fade-in">
+                <div className="flex items-center space-x-2 text-[#60A5FA]">
+                  <Video className="w-4 h-4 text-[#3B82F6] flex-shrink-0" />
+                  <span>
+                    Vídeo do <strong>{videoInfo.platformName}</strong> detectado! Você pode encurtar este link ou baixá-lo diretamente.
+                  </span>
+                </div>
+                {onSwitchToDownloader && (
+                  <button
+                    type="button"
+                    onClick={() => onSwitchToDownloader(url.trim())}
+                    className="inline-flex items-center justify-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#3B82F6] hover:bg-[#60A5FA] text-white font-medium text-xs transition-colors shadow-sm cursor-pointer whitespace-nowrap self-start sm:self-auto"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Baixar no Downloader</span>
+                  </button>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Toggle de Opções Avançadas */}
@@ -101,9 +150,9 @@ export function ShortenerForm() {
             <button
               type="button"
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="text-xs text-[#60A5FA] hover:underline flex items-center space-x-1"
+              className="text-xs text-[#60A5FA] hover:underline flex items-center space-x-1 cursor-pointer"
             >
-              <span>{showAdvanced ? "Ocultar opções avançadas" : "+ Opções avançadas (slug, expiração)"}</span>
+              <span>{showAdvanced ? "Ocultar opções avançadas" : "+ Opções avançadas (slug, expiração, senha)"}</span>
             </button>
           </div>
 
@@ -123,7 +172,7 @@ export function ShortenerForm() {
                       type="text"
                       value={customSlug}
                       onChange={(e) => setCustomSlug(e.target.value)}
-                      placeholder="meu-link"
+                      placeholder="meu-video"
                       className="w-full px-3 py-2 bg-transparent text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none"
                     />
                   </div>
@@ -138,7 +187,7 @@ export function ShortenerForm() {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Ex: Campanha de Lançamento"
+                    placeholder="Ex: Vídeo do TikTok sobre IA"
                     className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
                   />
                 </div>
@@ -186,7 +235,7 @@ export function ShortenerForm() {
           <button
             type="submit"
             disabled={loading || !url.trim()}
-            className="w-full py-3.5 px-6 rounded-xl bg-[#3B82F6] hover:bg-[#60A5FA] text-white font-medium text-sm flex items-center justify-center space-x-2 shadow-nova-glow transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group"
+            className="w-full py-3.5 px-6 rounded-xl bg-[#3B82F6] hover:bg-[#60A5FA] text-white font-medium text-sm flex items-center justify-center space-x-2 shadow-nova-glow transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer"
           >
             {loading ? (
               <span className="flex items-center space-x-2">
@@ -227,11 +276,22 @@ export function ShortenerForm() {
                 <button
                   type="button"
                   onClick={() => setShowQR(true)}
-                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#152238] text-[#F8FAFC] hover:bg-[#1E2C48] border border-[#1E2C48] transition-colors"
+                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#152238] text-[#F8FAFC] hover:bg-[#1E2C48] border border-[#1E2C48] transition-colors cursor-pointer"
                 >
                   <QrCode className="w-3.5 h-3.5 text-[#3B82F6]" />
                   <span>Ver QR Code</span>
                 </button>
+
+                {checkVideoPlatform(result.originalUrl).isVideo && onSwitchToDownloader && (
+                  <button
+                    type="button"
+                    onClick={() => onSwitchToDownloader(result.originalUrl)}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#3B82F6]/20 text-[#60A5FA] hover:bg-[#3B82F6]/30 border border-[#3B82F6]/40 transition-colors cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Baixar Vídeo</span>
+                  </button>
+                )}
 
                 <Link
                   href={`/estatisticas/${result.slug}`}
@@ -257,7 +317,7 @@ export function ShortenerForm() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] underline"
+                className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] underline cursor-pointer"
               >
                 Encurtar outro link
               </button>

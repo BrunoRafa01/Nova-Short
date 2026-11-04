@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Download, Search, Video, Music, CheckCircle2, AlertCircle, Clock, User, ShieldCheck } from "lucide-react";
 
 interface FormatOption {
@@ -22,12 +23,20 @@ interface MediaMetadata {
 }
 
 export function DownloaderForm() {
-  const [url, setUrl] = useState("");
+  const searchParams = useSearchParams();
+  const urlParam = searchParams?.get("url") || "";
+  const [url, setUrl] = useState(urlParam);
   const [analyzing, setAnalyzing] = useState(false);
   const [metadata, setMetadata] = useState<MediaMetadata | null>(null);
   const [selectedType, setSelectedType] = useState<"video" | "audio">("video");
   const [selectedQuality, setSelectedQuality] = useState<string>("720p");
   const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    if (urlParam) {
+      setUrl(urlParam);
+    }
+  }, [urlParam]);
   const [jobId, setJobId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [jobStatus, setJobStatus] = useState<string | null>(null);
