@@ -6,6 +6,7 @@ import { validateUrlAgainstSSRF } from "@/lib/security/ssrf";
 import { generateSlug, validateCustomSlug } from "@/lib/security/slug";
 import { checkRateLimit, getClientIp } from "@/lib/security/rate-limiter";
 import { hashPassword } from "@/lib/security/auth";
+import { getBaseAppUrl } from "@/lib/network";
 
 const shortenSchema = z.object({
   url: z.string().min(1, "URL é obrigatória").max(2048, "URL muito longa"),
@@ -94,7 +95,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const hostHeader = req.headers.get("x-forwarded-host") || req.headers.get("host");
+    const appUrl = getBaseAppUrl(hostHeader);
     const shortUrl = `${appUrl}/s/${slug}`;
 
     // Gerar QR Code em Base64
