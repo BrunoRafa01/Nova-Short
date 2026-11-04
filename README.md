@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/banner.png" alt="NOVA SHORT Banner" width="100%" />
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/banner.png" alt="NOVA SHORT Banner" width="100%" />
 </p>
 
 <p align="center">
@@ -62,7 +62,7 @@ Construído sob uma arquitetura resiliente no **Next.js 15 App Router** com tipa
 > Design moderno em tema dark obsidian com alternador dinâmico de ferramentas, opções avançadas de slug customizado, expiração, proteção por senha e geração instantânea de QR Code com download em PNG.
 
 <p align="center">
-  <img src="docs/images/hero.png" alt="Tela Principal do Encurtador" width="95%" />
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/hero.png" alt="Tela Principal do Encurtador" width="95%" />
 </p>
 
 ---
@@ -71,7 +71,7 @@ Construído sob uma arquitetura resiliente no **Next.js 15 App Router** com tipa
 > Inspeção dinâmica com extração em tempo real de metadados (título, autor, thumbnail, duração), seletor de resolução (1080p Full HD, 720p HD, 480p SD) ou extração de áudio MP3 (320kbps e 192kbps), fila assíncrona BullMQ e barra de progresso em tempo real.
 
 <p align="center">
-  <img src="docs/images/downloader.png" alt="Downloader de Mídia" width="95%" />
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/downloader.png" alt="Downloader de Mídia" width="95%" />
 </p>
 
 ---
@@ -80,7 +80,7 @@ Construído sob uma arquitetura resiliente no **Next.js 15 App Router** com tipa
 > Gestão completa dos links criados e mídias convertidas, visualização e download de QR Code, atalhos de cópia rápida e remoção protegida por controle de acesso administrativo.
 
 <p align="center">
-  <img src="docs/images/historico.png" alt="Histórico de Links e Downloads" width="95%" />
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/historico.png" alt="Histórico de Links e Downloads" width="95%" />
 </p>
 
 ---
@@ -89,7 +89,7 @@ Construído sob uma arquitetura resiliente no **Next.js 15 App Router** com tipa
 > Painel analítico com gráficos interativos que acompanham a evolução de cliques, distribuição por navegadores, tipos de dispositivos (Mobile, Desktop, Tablet) e origens de tráfego.
 
 <p align="center">
-  <img src="docs/images/estatisticas.png" alt="Estatísticas Analíticas" width="95%" />
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/estatisticas.png" alt="Estatísticas Analíticas" width="95%" />
 </p>
 
 ---
@@ -98,7 +98,7 @@ Construído sob uma arquitetura resiliente no **Next.js 15 App Router** com tipa
 > Autenticação segura via cookies HTTPOnly com JWT assinado (algoritmo HS256) e painel central para monitoramento de infraestrutura, volume de tráfego e integridade dos workers de conversão.
 
 <p align="center">
-  <img src="docs/images/admin-login.png" alt="Login Administrativo" width="95%" />
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/admin-login.png" alt="Login Administrativo" width="95%" />
 </p>
 
 ---
