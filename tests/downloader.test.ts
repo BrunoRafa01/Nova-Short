@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { detectPlatform } from "@/lib/downloader/extractor";
+import { detectPlatform, getBinaryName } from "@/lib/downloader/extractor";
 
 describe("Downloader Platform Detection", () => {
   it("deve identificar links do YouTube", () => {
@@ -20,5 +20,17 @@ describe("Downloader Platform Detection", () => {
 
   it("deve rotular outras URLs genéricas", () => {
     expect(detectPlatform("https://vimeo.com/123456")).toBe("outros");
+  });
+
+  it("deve resolver nomes de binários de forma multiplataforma", () => {
+    const ytDlp = getBinaryName("yt-dlp");
+    const ffmpeg = getBinaryName("ffmpeg");
+    if (process.platform === "win32") {
+      expect(ytDlp).toBe("yt-dlp.exe");
+      expect(ffmpeg).toBe("ffmpeg.exe");
+    } else {
+      expect(ytDlp).toBe("yt-dlp");
+      expect(ffmpeg).toBe("ffmpeg");
+    }
   });
 });

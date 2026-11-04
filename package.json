@@ -11,6 +11,7 @@
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:seed": "node scripts/seed.mjs",
+    "env:check": "node scripts/check-environment.mjs",
     "test": "vitest run"
   },
   "dependencies": {

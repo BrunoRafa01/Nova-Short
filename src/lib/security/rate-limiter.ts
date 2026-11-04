@@ -1,3 +1,4 @@
+import net from "net";
 import { redis } from "../redis";
 
 interface RateLimitRecord {
@@ -69,13 +70,28 @@ export async function checkRateLimit(
 }
 
 export function getClientIp(headers: Headers): string {
+  // 1. Cloudflare header prioritário se presente
+  const cfIp = headers.get("cf-connecting-ip")?.trim();
+  if (cfIp && net.isIP(cfIp)) {
+    return cfIp;
+  }
+
+  // 2. X-Real-IP
+  const realIp = headers.get("x-real-ip")?.trim();
+  if (realIp && net.isIP(realIp)) {
+    return realIp;
+  }
+
+  // 3. X-Forwarded-For (validando cada parte)
   const forwarded = headers.get("x-forwarded-for");
   if (forwarded) {
-    return forwarded.split(",")[0].trim();
+    const parts = forwarded.split(",").map((p) => p.trim());
+    for (const part of parts) {
+      if (net.isIP(part)) {
+        return part;
+      }
+    }
   }
-  const realIp = headers.get("x-real-ip");
-  if (realIp) {
-    return realIp.trim();
-  }
+
   return "127.0.0.1";
 }

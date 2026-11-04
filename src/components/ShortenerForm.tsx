@@ -74,7 +74,7 @@ export function ShortenerForm() {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border transition-all">
+      <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border transition-all">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="url-input" className="block text-xs font-semibold uppercase tracking-wider text-[#94A3B8] mb-2">
@@ -91,7 +91,7 @@ export function ShortenerForm() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://exemplo.com/seu-link-longo-aqui"
-                className="w-full pl-11 pr-4 py-3 bg-[#080B12] border border-[#1E293B] rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] text-sm transition-colors"
+                className="w-full pl-11 pr-4 py-3 bg-[#080C15] border border-[#1E2C48] rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] text-sm transition-colors"
               />
             </div>
           </div>
@@ -108,14 +108,14 @@ export function ShortenerForm() {
           </div>
 
           {showAdvanced && (
-            <div className="space-y-4 pt-2 border-t border-[#1E293B] animate-fade-in">
+            <div className="space-y-4 pt-2 border-t border-[#1E2C48] animate-fade-in">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="custom-slug" className="block text-xs font-medium text-[#94A3B8] mb-1">
                     Slug Personalizado (opcional)
                   </label>
-                  <div className="flex rounded-xl overflow-hidden border border-[#1E293B] bg-[#080B12]">
-                    <span className="px-2.5 py-2 text-xs text-[#64748B] bg-[#161F30] border-r border-[#1E293B] flex items-center">
+                  <div className="flex rounded-xl overflow-hidden border border-[#1E2C48] bg-[#080C15]">
+                    <span className="px-2.5 py-2 text-xs text-[#64748B] bg-[#152238] border-r border-[#1E2C48] flex items-center">
                       /s/
                     </span>
                     <input
@@ -139,7 +139,7 @@ export function ShortenerForm() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Ex: Campanha de Lançamento"
-                    className="w-full px-3 py-2 bg-[#080B12] border border-[#1E293B] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                    className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
                   />
                 </div>
               </div>
@@ -155,7 +155,7 @@ export function ShortenerForm() {
                     type="datetime-local"
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#080B12] border border-[#1E293B] rounded-xl text-xs text-[#F8FAFC] focus:outline-none focus:border-[#3B82F6]"
+                    className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-xs text-[#F8FAFC] focus:outline-none focus:border-[#3B82F6]"
                   />
                 </div>
 
@@ -170,7 +170,7 @@ export function ShortenerForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Senha para redirecionar"
-                    className="w-full px-3 py-2 bg-[#080B12] border border-[#1E293B] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                    className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
                   />
                 </div>
               </div>
@@ -205,8 +205,8 @@ export function ShortenerForm() {
 
         {/* Card de Resultado */}
         {result && (
-          <div className="mt-6 pt-6 border-t border-[#1E293B] animate-fade-in">
-            <div className="bg-[#080B12] p-4 sm:p-5 rounded-xl border border-[#3B82F6]/30 shadow-inner">
+          <div className="mt-6 pt-6 border-t border-[#1E2C48] animate-fade-in">
+            <div className="bg-[#080C15] p-4 sm:p-5 rounded-xl border border-[#3B82F6]/30 shadow-inner">
               <div className="flex items-start justify-between">
                 <div>
                   <span className="text-[10px] uppercase tracking-wider font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
@@ -221,13 +221,13 @@ export function ShortenerForm() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-[#1E293B]/60">
+              <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-[#1E2C48]/60">
                 <CopyButton text={result.shortUrl} label="Copiar Link" />
 
                 <button
                   type="button"
                   onClick={() => setShowQR(true)}
-                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#161F30] text-[#F8FAFC] hover:bg-[#1E293B] border border-[#1E293B] transition-colors"
+                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#152238] text-[#F8FAFC] hover:bg-[#1E2C48] border border-[#1E2C48] transition-colors"
                 >
                   <QrCode className="w-3.5 h-3.5 text-[#3B82F6]" />
                   <span>Ver QR Code</span>
@@ -235,7 +235,7 @@ export function ShortenerForm() {
 
                 <Link
                   href={`/estatisticas/${result.slug}`}
-                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#161F30] text-[#60A5FA] hover:bg-[#1E293B] border border-[#1E293B] transition-colors"
+                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#152238] text-[#60A5FA] hover:bg-[#1E2C48] border border-[#1E2C48] transition-colors"
                 >
                   <BarChart2 className="w-3.5 h-3.5" />
                   <span>Estatísticas</span>

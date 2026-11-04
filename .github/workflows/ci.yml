@@ -1,0 +1,49 @@
+name: NOVA SHORT CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Build, Lint & Automated Tests
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: test
+      JWT_SECRET: ci_pipeline_super_secret_test_key_must_be_32_chars!
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/nova_short_ci?schema=public"
+
+    steps:
+      - name: Checkout Código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Instalar FFmpeg e yt-dlp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg python3
+          sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
+          sudo chmod a+rx /usr/local/bin/yt-dlp
+
+      - name: Instalar Dependências
+        run: npm ci
+
+      - name: Gerar Prisma Client
+        run: npx prisma generate
+
+      - name: Verificação de Tipos TypeScript
+        run: npx tsc --noEmit
+
+      - name: Executar Bateria de Testes Vitest
+        run: npm test
+
+      - name: Build de Produção Next.js
+        run: npm run build

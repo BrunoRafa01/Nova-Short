@@ -9,14 +9,14 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - NEXT_PUBLIC_APP_URL=http://localhost:3000
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nova_short?schema=public
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=nova_short_super_secret_jwt_key_2026_runtime_987654321
-      - ADMIN_DEFAULT_EMAIL=admin@novaruntime.com
-      - ADMIN_DEFAULT_PASSWORD=admin_change_me_123
-      - STORAGE_DIR=/app/storage/downloads
-      - DOWNLOAD_MAX_FILE_SIZE_MB=250
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      - DATABASE_URL=${DATABASE_URL:-postgresql://${POSTGRES_USER:-nova_user}:${POSTGRES_PASSWORD:-nova_secure_pass}@db:5432/${POSTGRES_DB:-nova_short}?schema=public}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      - JWT_SECRET=${JWT_SECRET}
+      - ADMIN_DEFAULT_EMAIL=${ADMIN_DEFAULT_EMAIL}
+      - ADMIN_DEFAULT_PASSWORD=${ADMIN_DEFAULT_PASSWORD}
+      - STORAGE_DIR=${STORAGE_DIR:-/app/storage/downloads}
+      - DOWNLOAD_MAX_FILE_SIZE_MB=${DOWNLOAD_MAX_FILE_SIZE_MB:-250}
     volumes:
       - nova_storage:/app/storage/downloads
     depends_on:
@@ -30,15 +30,15 @@ services:
     container_name: nova_short_postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: nova_short
+      POSTGRES_USER: ${POSTGRES_USER:-nova_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nova_secure_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-nova_short}
     ports:
       - "5432:5432"
     volumes:
       - nova_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d nova_short"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nova_user} -d ${POSTGRES_DB:-nova_short}"]
       interval: 5s
       timeout: 5s
       retries: 5

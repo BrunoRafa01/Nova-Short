@@ -19,7 +19,7 @@ export default function EstatisticasOverviewPage() {
   return (
     <div className="flex-1 max-w-3xl mx-auto px-4 sm:px-6 py-16 w-full flex flex-col items-center justify-center">
       <div className="text-center mb-8">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#101622] border border-[#3B82F6]/30 text-xs text-[#60A5FA] mb-3">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#101828] border border-[#3B82F6]/30 text-xs text-[#60A5FA] mb-3">
           <TrendingUp className="w-3.5 h-3.5" />
           <span>Analytics & Telemetria</span>
         </div>
@@ -29,7 +29,7 @@ export default function EstatisticasOverviewPage() {
         </p>
       </div>
 
-      <div className="w-full bg-[#101622] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border">
+      <div className="w-full bg-[#101828] border border-[#1E2C48] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border">
         <form onSubmit={handleSearch} className="space-y-4">
           <div>
             <label htmlFor="slug-search" className="block text-xs font-semibold uppercase tracking-wider text-[#94A3B8] mb-2">
@@ -44,7 +44,7 @@ export default function EstatisticasOverviewPage() {
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 placeholder="Ex: meu-link ou https://.../s/meu-link"
-                className="w-full pl-11 pr-4 py-3 bg-[#080B12] border border-[#1E293B] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                className="w-full pl-11 pr-4 py-3 bg-[#080C15] border border-[#1E2C48] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
               />
             </div>
           </div>

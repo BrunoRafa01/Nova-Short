@@ -5,16 +5,20 @@ import { X, Download } from "lucide-react";
 interface QRCodeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  qrCodeUrl: string;
+  qrCodeUrl?: string;
+  qrCodeDataUrl?: string;
   slug: string;
 }
 
-export function QRCodeModal({ isOpen, onClose, qrCodeUrl, slug }: QRCodeModalProps) {
+export function QRCodeModal({ isOpen, onClose, qrCodeUrl, qrCodeDataUrl, slug }: QRCodeModalProps) {
   if (!isOpen) return null;
 
+  const resolvedUrl = qrCodeUrl || qrCodeDataUrl || "";
+
   const handleDownload = () => {
+    if (!resolvedUrl) return;
     const a = document.createElement("a");
-    a.href = qrCodeUrl;
+    a.href = resolvedUrl;
     a.download = `qrcode-${slug}.png`;
     document.body.appendChild(a);
     a.click();
@@ -23,7 +27,7 @@ export function QRCodeModal({ isOpen, onClose, qrCodeUrl, slug }: QRCodeModalPro
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in">
-      <div className="bg-[#101622] border border-[#1E293B] rounded-2xl max-w-sm w-full p-6 text-center shadow-nova-glow relative">
+      <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl max-w-sm w-full p-6 text-center shadow-nova-glow relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-[#94A3B8] hover:text-white transition-colors"
@@ -37,7 +41,7 @@ export function QRCodeModal({ isOpen, onClose, qrCodeUrl, slug }: QRCodeModalPro
 
         <div className="bg-white p-4 rounded-xl inline-block shadow-inner mx-auto mb-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qrCodeUrl} alt={`QR Code para ${slug}`} className="w-48 h-48 mx-auto" />
+          <img src={resolvedUrl} alt={`QR Code para ${slug}`} className="w-48 h-48 mx-auto" />
         </div>
 
         <div className="flex space-x-3">
@@ -50,7 +54,7 @@ export function QRCodeModal({ isOpen, onClose, qrCodeUrl, slug }: QRCodeModalPro
           </button>
           <button
             onClick={onClose}
-            className="bg-[#161F30] hover:bg-[#1E293B] text-[#94A3B8] hover:text-white py-2 px-4 rounded-xl text-sm transition-colors"
+            className="bg-[#152238] hover:bg-[#1E2C48] text-[#94A3B8] hover:text-white py-2 px-4 rounded-xl text-sm transition-colors"
           >
             Fechar
           </button>

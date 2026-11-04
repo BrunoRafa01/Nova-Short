@@ -3,15 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --background: #080B12;
+  --background: #080C15;
   --foreground: #F8FAFC;
+  --surface-card: #101828;
+  --surface-hover: #152238;
+  --border-card: #1E2C48;
+  --primary: #3B82F6;
+  --primary-hover: #2563EB;
+  --accent: #60A5FA;
+  --neon: #38BDF8;
 }
 
 body {
-  background-color: #080B12;
+  background-color: #080C15;
   color: #F8FAFC;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59, 130, 246, 0.15), transparent),
+    radial-gradient(circle 600px at 100% 100%, rgba(96, 165, 250, 0.05), transparent);
+  background-attachment: fixed;
 }
 
 /* Custom Scrollbar */
@@ -21,11 +32,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #080B12;
+  background: #080C15;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #1E2C48;
   border-radius: 4px;
 }
 
@@ -35,17 +46,24 @@ body {
 
 /* Glassmorphism & Glow utilities */
 .nova-glow-border {
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.18);
+  transition: all 0.2s ease-in-out;
 }
 
 .nova-glow-border:hover {
-  border-color: rgba(96, 165, 250, 0.4);
-  box-shadow: 0 0 25px -3px rgba(59, 130, 246, 0.3);
+  border-color: rgba(96, 165, 250, 0.5);
+  box-shadow: 0 0 30px -3px rgba(59, 130, 246, 0.35);
 }
 
 .nova-gradient-text {
-  background: linear-gradient(135deg, #F8FAFC 0%, #94A3B8 50%, #3B82F6 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #94A3B8 45%, #60A5FA 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.nova-glass-panel {
+  background: rgba(16, 24, 40, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(30, 44, 72, 0.7);
 }

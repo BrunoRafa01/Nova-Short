@@ -19,11 +19,32 @@ describe("SSRF Security Validator", () => {
     expect(isPrivateIPv4("142.250.190.46")).toBe(false);
   });
 
-  it("deve detectar e bloquear endereços IPv6 privados e loopback", () => {
+  it("deve detectar e bloquear endereços IPv6 privados, loopback e IPv4-mapped", () => {
     expect(isPrivateIPv6("::1")).toBe(true);
     expect(isPrivateIPv6("fe80::1")).toBe(true);
     expect(isPrivateIPv6("fc00::1")).toBe(true);
+    expect(isPrivateIPv6("::ffff:127.0.0.1")).toBe(true);
+    expect(isPrivateIPv6("::ffff:169.254.169.254")).toBe(true);
+    expect(isPrivateIPv6("::ffff:10.0.0.1")).toBe(true);
     expect(isPrivateIPv6("2001:4860:4860::8888")).toBe(false);
+    expect(isPrivateIPv6("::ffff:8.8.8.8")).toBe(false);
+  });
+
+  it("deve detectar esquemas perigosos e domínios maliciosos", async () => {
+    const dataUrl = await validateUrlAgainstSSRF("data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==");
+    expect(dataUrl.valid).toBe(false);
+
+    const blobUrl = await validateUrlAgainstSSRF("blob:https://example.com/uuid");
+    expect(blobUrl.valid).toBe(false);
+
+    const grabify = await validateUrlAgainstSSRF("https://grabify.link/track123");
+    expect(grabify.valid).toBe(false);
+
+    const iplogger = await validateUrlAgainstSSRF("http://iplogger.org/2abcde");
+    expect(iplogger.valid).toBe(false);
+
+    const punycode = await validateUrlAgainstSSRF("https://xn--pple-43d.com/login");
+    expect(punycode.valid).toBe(false);
   });
 
   it("deve rejeitar URLs com esquemas não permitidos", async () => {

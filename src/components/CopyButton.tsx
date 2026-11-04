@@ -37,7 +37,7 @@ export function CopyButton({ text, className = "", label }: CopyButtonProps) {
       className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 ${
         copied
           ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-          : "bg-[#161F30] text-[#F8FAFC] hover:bg-[#3B82F6] hover:text-white border border-[#1E293B]"
+          : "bg-[#152238] text-[#F8FAFC] hover:bg-[#3B82F6] hover:text-white border border-[#1E2C48]"
       } ${className}`}
       title="Copiar para a área de transferência"
     >

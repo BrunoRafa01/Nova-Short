@@ -1,11 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getAdminSession } from "@/lib/security/auth";
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getAdminSession().catch(() => null);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Acesso não autorizado. Apenas administradores autenticados podem remover links permanentemente." },
+        { status: 401 }
+      );
+    }
+
     const { id } = await params;
 
     await prisma.shortLink.delete({
@@ -24,6 +33,14 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const session = await getAdminSession().catch(() => null);
+    if (!session) {
+      return NextResponse.json(
+        { error: "Acesso não autorizado. Apenas administradores podem alterar o status de links." },
+        { status: 401 }
+      );
+    }
+
     const { id } = await params;
     const body = await req.json();
 

@@ -1,0 +1,49 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#080C15" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="primaryGrad" x1="64" y1="64" x2="448" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="50%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="neonPulse" x1="120" y1="120" x2="392" y2="392" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#93C5FD"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="32" y1="32" x2="480" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#1E2C48" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.8"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="512" height="512" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="12" stdDeviation="24" flood-color="#3B82F6" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Container Base Dark Obsidian -->
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="#080C15"/>
+  <rect x="24" y="24" width="464" height="464" rx="112" fill="url(#bgGlow)"/>
+  <rect x="25" y="25" width="462" height="462" rx="111" stroke="url(#borderGrad)" stroke-width="4"/>
+
+  <!-- Símbolo NOVA: Anéis de Encurtamento & Pulso de Mídia -->
+  <g filter="url(#shadow)">
+    <!-- Elo Esquerdo / Encurtador -->
+    <path d="M212 168H180C144.654 168 116 196.654 116 232V280C116 315.346 144.654 344 180 344H212" 
+          stroke="url(#primaryGrad)" stroke-width="32" stroke-linecap="round"/>
+    
+    <!-- Elo Direito / Conector -->
+    <path d="M300 168H332C367.346 168 396 196.654 396 232V280C396 315.346 367.346 344 332 344H300" 
+          stroke="url(#primaryGrad)" stroke-width="32" stroke-linecap="round"/>
+    
+    <!-- Raio Central Dinâmico / Pulso de Download e Velocidade -->
+    <path d="M280 160L216 264H296L232 352" 
+          stroke="url(#neonPulse)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Ponto de Luz Superior Neon -->
+  <circle cx="388" cy="124" r="14" fill="#60A5FA"/>
+  <circle cx="388" cy="124" r="28" fill="#3B82F6" fill-opacity="0.3"/>
+</svg>

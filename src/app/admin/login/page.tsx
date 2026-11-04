@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="flex-1 flex items-center justify-center px-4 py-16 w-full">
-      <div className="w-full max-w-md bg-[#101622] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border">
+      <div className="w-full max-w-md bg-[#101828] border border-[#1E2C48] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border">
         <div className="text-center mb-6">
           <div className="w-12 h-12 rounded-2xl bg-[#3B82F6]/10 border border-[#3B82F6]/30 flex items-center justify-center text-[#3B82F6] mx-auto mb-3 shadow-nova-glow">
             <Shield className="w-6 h-6" />
@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@novaruntime.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-[#080B12] border border-[#1E293B] rounded-xl text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#080C15] border border-[#1E2C48] rounded-xl text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
               />
             </div>
           </div>
@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full pl-10 pr-4 py-2.5 bg-[#080B12] border border-[#1E293B] rounded-xl text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                className="w-full pl-10 pr-4 py-2.5 bg-[#080C15] border border-[#1E2C48] rounded-xl text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
               />
             </div>
           </div>

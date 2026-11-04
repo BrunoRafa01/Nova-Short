@@ -67,7 +67,7 @@ export default function LinkStatsPage({ params }: { params: Promise<{ slug: stri
         <p className="text-xs text-[#94A3B8] mt-2 mb-6">{error || "Não há dados para este slug."}</p>
         <Link
           href="/historico"
-          className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-[#161F30] text-sm text-[#F8FAFC] border border-[#1E293B]"
+          className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-[#152238] text-sm text-[#F8FAFC] border border-[#1E2C48]"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Voltar ao Histórico</span>
@@ -109,7 +109,7 @@ export default function LinkStatsPage({ params }: { params: Promise<{ slug: stri
               href={link.shortUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg bg-[#101622] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#1E293B] transition-colors"
+              className="p-2 rounded-lg bg-[#101828] text-[#94A3B8] hover:text-[#F8FAFC] border border-[#1E2C48] transition-colors"
               title="Testar Redirecionamento"
             >
               <ExternalLink className="w-4 h-4" />
@@ -120,7 +120,7 @@ export default function LinkStatsPage({ params }: { params: Promise<{ slug: stri
 
       {/* Cards de Resumo */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center space-x-2 text-[#3B82F6] mb-2">
             <MousePointerClick className="w-5 h-5" />
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
@@ -130,7 +130,7 @@ export default function LinkStatsPage({ params }: { params: Promise<{ slug: stri
           <p className="text-3xl font-extrabold text-[#F8FAFC] font-mono">{stats.totalClicks}</p>
         </div>
 
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center space-x-2 text-emerald-400 mb-2">
             <ShieldCheck className="w-5 h-5" />
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
@@ -142,7 +142,7 @@ export default function LinkStatsPage({ params }: { params: Promise<{ slug: stri
           </p>
         </div>
 
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center space-x-2 text-[#60A5FA] mb-2">
             <Calendar className="w-5 h-5" />
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">

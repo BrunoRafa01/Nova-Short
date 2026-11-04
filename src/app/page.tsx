@@ -15,7 +15,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <div className="text-center max-w-3xl mx-auto mb-8 relative z-10">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#101622] border border-[#3B82F6]/30 text-xs text-[#60A5FA] mb-4 shadow-sm">
+        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#101828] border border-[#3B82F6]/40 text-xs text-[#60A5FA] mb-4 shadow-sm">
           <Sparkles className="w-3.5 h-3.5" />
           <span>Ecossistema NOVA RUNTIME</span>
         </div>
@@ -26,13 +26,13 @@ export default function HomePage() {
         </h1>
 
         <p className="mt-4 text-sm sm:text-base text-[#94A3B8] max-w-xl mx-auto leading-relaxed">
-          Encurtamento ultrarrápido com métricas e QR Code, aliado a um downloader profissional
-          para YouTube, TikTok e Instagram.
+          Encurtamento ultrarrápido com telemetria e QR Code, aliado a um downloader profissional
+          para YouTube, TikTok e Instagram com blindagem de segurança completa.
         </p>
 
         {/* Tab Switcher */}
         <div className="flex items-center justify-center mt-8">
-          <div className="p-1 rounded-2xl bg-[#101622] border border-[#1E293B] shadow-inner flex space-x-1">
+          <div className="p-1 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-inner flex space-x-1">
             <button
               type="button"
               onClick={() => setActiveTab("shortener")}
@@ -69,7 +69,7 @@ export default function HomePage() {
 
       {/* Grid de Diferenciais */}
       <div className="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-        <div className="p-6 rounded-2xl bg-[#101622] border border-[#1E293B] shadow-nova-card">
+        <div className="p-6 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-nova-card hover:border-[#3B82F6]/40 transition-colors">
           <div className="w-10 h-10 rounded-xl bg-[#3B82F6]/10 flex items-center justify-center text-[#3B82F6] mb-4">
             <Zap className="w-5 h-5" />
           </div>
@@ -79,7 +79,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-[#101622] border border-[#1E293B] shadow-nova-card">
+        <div className="p-6 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-nova-card hover:border-[#3B82F6]/40 transition-colors">
           <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4">
             <BarChart2 className="w-5 h-5" />
           </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-[#101622] border border-[#1E293B] shadow-nova-card">
+        <div className="p-6 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-nova-card hover:border-[#3B82F6]/40 transition-colors">
           <div className="w-10 h-10 rounded-xl bg-[#60A5FA]/10 flex items-center justify-center text-[#60A5FA] mb-4">
             <QrCode className="w-5 h-5" />
           </div>

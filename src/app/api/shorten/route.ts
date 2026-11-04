@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
       width: 300,
       margin: 2,
       color: {
-        dark: "#080B12",
+        dark: "#080C15",
         light: "#F8FAFC",
       },
     });

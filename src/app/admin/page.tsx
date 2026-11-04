@@ -66,9 +66,9 @@ export default function AdminDashboardPage() {
   return (
     <div className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 py-12 w-full space-y-8">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E293B] pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#1E2C48] pb-6">
         <div>
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#101622] border border-[#3B82F6]/30 text-xs text-[#60A5FA] mb-2">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#101828] border border-[#3B82F6]/30 text-xs text-[#60A5FA] mb-2">
             <Shield className="w-3.5 h-3.5" />
             <span>Painel de Controle Central</span>
           </div>
@@ -91,7 +91,7 @@ export default function AdminDashboardPage() {
 
       {/* Cards de Métricas Globais */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center justify-between text-[#3B82F6] mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
               Total de Links
@@ -106,7 +106,7 @@ export default function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center justify-between text-[#60A5FA] mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
               Cliques Registrados
@@ -121,7 +121,7 @@ export default function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center justify-between text-emerald-400 mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
               Downloads Concluídos
@@ -136,7 +136,7 @@ export default function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-5 shadow-nova-card">
+        <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-5 shadow-nova-card">
           <div className="flex items-center justify-between text-[#F8FAFC] mb-3">
             <span className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
               Segurança & SSRF
@@ -151,7 +151,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Tabela de Trabalhos Recentes de Download */}
-      <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-6 shadow-nova-card">
+      <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-6 shadow-nova-card">
         <h3 className="text-sm font-semibold text-[#F8FAFC] mb-4 flex items-center space-x-2">
           <Clock className="w-4 h-4 text-[#3B82F6]" />
           <span>Fila Recente de Mídias Processadas</span>
@@ -164,7 +164,7 @@ export default function AdminDashboardPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="text-[#94A3B8] border-b border-[#1E293B] uppercase font-mono text-[10px]">
+              <thead className="text-[#94A3B8] border-b border-[#1E2C48] uppercase font-mono text-[10px]">
                 <tr>
                   <th className="py-2.5">Título / Mídia</th>
                   <th className="py-2.5">Plataforma</th>
@@ -174,9 +174,9 @@ export default function AdminDashboardPage() {
                   <th className="py-2.5">Data</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1E293B]/60 text-[#F8FAFC]">
+              <tbody className="divide-y divide-[#1E2C48]/60 text-[#F8FAFC]">
                 {recentDownloads.map((job) => (
-                  <tr key={job.id} className="hover:bg-[#161F30]/40 transition-colors">
+                  <tr key={job.id} className="hover:bg-[#152238]/40 transition-colors">
                     <td className="py-3 font-medium truncate max-w-[200px]" title={job.title}>
                       {job.title}
                     </td>

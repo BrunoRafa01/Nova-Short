@@ -7,6 +7,16 @@ import crypto from "crypto";
 
 const execFileAsync = promisify(execFile);
 
+/**
+ * Retorna o nome ou caminho do executável com suporte multiplataforma (Linux, Windows, macOS)
+ */
+export function getBinaryName(name: "yt-dlp" | "ffmpeg"): string {
+  if (process.platform === "win32") {
+    return `${name}.exe`;
+  }
+  return name;
+}
+
 export interface MediaFormatOption {
   formatId: string;
   type: "video" | "audio";
@@ -43,7 +53,7 @@ export function detectPlatform(url: string): string {
 export async function analyzeMediaUrl(url: string): Promise<MediaMetadata> {
   const platform = detectPlatform(url);
 
-  // Argumentos robustos para yt-dlp sem injeção de shell
+  // Argumentos robustos para yt-dlp sem injeção de shell e com delimitador contra flags maliciosas
   const args = [
     "--dump-json",
     "--no-warnings",
@@ -52,11 +62,13 @@ export async function analyzeMediaUrl(url: string): Promise<MediaMetadata> {
     "--socket-timeout", "15",
     "--force-ipv4",
     "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "--",
     url,
   ];
 
   try {
-    const { stdout } = await execFileAsync("yt-dlp", args, {
+    const binary = getBinaryName("yt-dlp");
+    const { stdout } = await execFileAsync(binary, args, {
       timeout: 30000,
       maxBuffer: 15 * 1024 * 1024,
     });
@@ -160,7 +172,6 @@ export async function processMediaDownload(
 
   const args: string[] = [
     "--no-warnings",
-    "--no-check-certificates",
     "--socket-timeout", "20",
     "--force-ipv4",
     "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -173,6 +184,7 @@ export async function processMediaDownload(
       "--audio-format", "mp3",
       "--audio-quality", quality === "320k" ? "0" : "2",
       "-o", targetPath,
+      "--",
       url
     );
   } else {
@@ -185,6 +197,7 @@ export async function processMediaDownload(
       "--merge-output-format", "mp4",
       "--postprocessor-args", "Merger:-c:v copy -c:a aac",
       "-o", targetPath,
+      "--",
       url
     );
   }
@@ -192,7 +205,8 @@ export async function processMediaDownload(
   if (onProgress) onProgress(25);
 
   try {
-    await execFileAsync("yt-dlp", args, {
+    const binary = getBinaryName("yt-dlp");
+    await execFileAsync(binary, args, {
       timeout: 180000, // 3 minutos max
       maxBuffer: 25 * 1024 * 1024,
     });

@@ -142,7 +142,7 @@ export function DownloaderForm() {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-[#101622] border border-[#1E293B] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border transition-all">
+      <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border transition-all">
         {/* Formulário de Input */}
         <form onSubmit={handleAnalyze} className="space-y-4">
           <div>
@@ -160,7 +160,7 @@ export function DownloaderForm() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="Cole aqui o link do YouTube, TikTok ou Instagram..."
-                className="w-full pl-11 pr-4 py-3 bg-[#080B12] border border-[#1E293B] rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] text-sm transition-colors"
+                className="w-full pl-11 pr-4 py-3 bg-[#080C15] border border-[#1E2C48] rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] text-sm transition-colors"
               />
             </div>
           </div>
@@ -193,17 +193,17 @@ export function DownloaderForm() {
 
         {/* Prévia da Mídia e Seleção de Formatos */}
         {metadata && (
-          <div className="mt-6 pt-6 border-t border-[#1E293B] animate-fade-in space-y-6">
-            <div className="flex flex-col sm:flex-row gap-4 bg-[#080B12] p-4 rounded-xl border border-[#1E293B]">
+          <div className="mt-6 pt-6 border-t border-[#1E2C48] animate-fade-in space-y-6">
+            <div className="flex flex-col sm:flex-row gap-4 bg-[#080C15] p-4 rounded-xl border border-[#1E2C48]">
               {metadata.thumbnail ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={metadata.thumbnail}
                   alt={metadata.title}
-                  className="w-full sm:w-36 h-24 object-cover rounded-lg border border-[#1E293B]"
+                  className="w-full sm:w-36 h-24 object-cover rounded-lg border border-[#1E2C48]"
                 />
               ) : (
-                <div className="w-full sm:w-36 h-24 bg-[#161F30] rounded-lg flex items-center justify-center">
+                <div className="w-full sm:w-36 h-24 bg-[#152238] rounded-lg flex items-center justify-center">
                   <Video className="w-8 h-8 text-[#64748B]" />
                 </div>
               )}
@@ -245,7 +245,7 @@ export function DownloaderForm() {
                   className={`flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all ${
                     selectedType === "video"
                       ? "bg-[#3B82F6] text-white shadow-nova-glow"
-                      : "bg-[#080B12] text-[#94A3B8] border border-[#1E293B] hover:text-[#F8FAFC]"
+                      : "bg-[#080C15] text-[#94A3B8] border border-[#1E2C48] hover:text-[#F8FAFC]"
                   }`}
                 >
                   <Video className="w-4 h-4" />
@@ -261,7 +261,7 @@ export function DownloaderForm() {
                   className={`flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl text-xs font-semibold transition-all ${
                     selectedType === "audio"
                       ? "bg-[#3B82F6] text-white shadow-nova-glow"
-                      : "bg-[#080B12] text-[#94A3B8] border border-[#1E293B] hover:text-[#F8FAFC]"
+                      : "bg-[#080C15] text-[#94A3B8] border border-[#1E2C48] hover:text-[#F8FAFC]"
                   }`}
                 >
                   <Music className="w-4 h-4" />
@@ -289,8 +289,8 @@ export function DownloaderForm() {
                         onClick={() => setSelectedQuality(opt.q)}
                         className={`p-2.5 rounded-xl text-xs font-medium border text-center transition-all ${
                           selectedQuality === opt.q
-                            ? "bg-[#161F30] border-[#3B82F6] text-[#60A5FA]"
-                            : "bg-[#080B12] border-[#1E293B] text-[#94A3B8] hover:border-[#3B82F6]/50"
+                            ? "bg-[#152238] border-[#3B82F6] text-[#60A5FA]"
+                            : "bg-[#080C15] border-[#1E2C48] text-[#94A3B8] hover:border-[#3B82F6]/50"
                         }`}
                       >
                         {opt.label}
@@ -309,8 +309,8 @@ export function DownloaderForm() {
                         onClick={() => setSelectedQuality(opt.q)}
                         className={`p-2.5 rounded-xl text-xs font-medium border text-center transition-all ${
                           selectedQuality === opt.q
-                            ? "bg-[#161F30] border-[#3B82F6] text-[#60A5FA]"
-                            : "bg-[#080B12] border-[#1E293B] text-[#94A3B8] hover:border-[#3B82F6]/50"
+                            ? "bg-[#152238] border-[#3B82F6] text-[#60A5FA]"
+                            : "bg-[#080C15] border-[#1E2C48] text-[#94A3B8] hover:border-[#3B82F6]/50"
                         }`}
                       >
                         {opt.label}
@@ -349,7 +349,7 @@ export function DownloaderForm() {
                       <span>Progresso do processamento</span>
                       <span className="font-mono">{progress}%</span>
                     </div>
-                    <div className="w-full h-2 bg-[#080B12] rounded-full overflow-hidden border border-[#1E293B]">
+                    <div className="w-full h-2 bg-[#080C15] rounded-full overflow-hidden border border-[#1E2C48]">
                       <div
                         className="h-full bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] transition-all duration-300"
                         style={{ width: `${progress}%` }}
@@ -374,25 +374,43 @@ export function DownloaderForm() {
                   <Download className="w-4 h-4" />
                   <span>Salvar Arquivo no Computador</span>
                 </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMetadata(null);
-                    setUrl("");
-                    setJobId(null);
-                    setDownloadReadyUrl(null);
-                    setProgress(0);
-                    setJobStatus(null);
-                  }}
-                  className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] underline pt-1 block mx-auto"
-                >
-                  Baixar outro vídeo ou música
-                </button>
+
+                <div className="flex items-center justify-center gap-4 pt-2 border-t border-[#1E2C48]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setDownloadReadyUrl(null);
+                      setJobId(null);
+                      setProgress(0);
+                      setJobStatus(null);
+                    }}
+                    className="text-xs text-[#60A5FA] hover:text-white font-medium hover:underline transition-colors"
+                  >
+                    Baixar outra qualidade/formato deste conteúdo
+                  </button>
+
+                  <span className="text-[#334155]">•</span>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMetadata(null);
+                      setUrl("");
+                      setJobId(null);
+                      setDownloadReadyUrl(null);
+                      setProgress(0);
+                      setJobStatus(null);
+                    }}
+                    className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] hover:underline transition-colors"
+                  >
+                    Analisar novo link
+                  </button>
+                </div>
               </div>
             )}
 
             {/* Aviso de Termos e Direitos Autorais */}
-            <div className="p-3 rounded-lg bg-[#080B12] border border-[#1E293B] text-[11px] text-[#64748B] flex items-start space-x-2">
+            <div className="p-3 rounded-lg bg-[#080C15] border border-[#1E2C48] text-[11px] text-[#64748B] flex items-start space-x-2">
               <ShieldCheck className="w-4 h-4 text-[#3B82F6] shrink-0 mt-0.5" />
               <span>
                 <strong>Aviso Legal:</strong> O NOVA SHORT destina-se ao download de materiais

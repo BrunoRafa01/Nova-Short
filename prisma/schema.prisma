@@ -57,6 +57,7 @@ model DownloadJob {
   progress     Int       @default(0)
   errorMessage String?
   ipHash       String?
+  downloadToken String?
   expiresAt    DateTime
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
@@ -64,6 +65,7 @@ model DownloadJob {
   @@index([status])
   @@index([createdAt])
   @@index([expiresAt])
+  @@index([expiresAt, status])
 }
 
 model AdminUser {

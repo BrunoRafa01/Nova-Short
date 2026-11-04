@@ -5,6 +5,9 @@ import { createReadStream } from "fs";
 import { Readable } from "stream";
 import path from "path";
 import { getJobStatus } from "@/lib/queue/download-queue";
+import { getAdminSession } from "@/lib/security/auth";
+
+const UUID_REGEX = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
 export async function GET(
   req: NextRequest,
@@ -12,11 +15,33 @@ export async function GET(
 ) {
   try {
     const { jobId } = await params;
-    const storageDir = path.resolve(process.env.STORAGE_DIR || "./storage/downloads");
 
+    // 1. Validação estrita do formato de UUID
+    if (!jobId || !UUID_REGEX.test(jobId)) {
+      return new NextResponse("Identificador de download inválido.", { status: 400 });
+    }
+
+    const storageDir = path.resolve(process.env.STORAGE_DIR || "./storage/downloads");
     const job = await getJobStatus(jobId);
 
-    // Identificar caminho do arquivo: via job ou direto no disco
+    // 2. Validação de expiração da tarefa
+    if (job?.expiresAt && new Date() > new Date(job.expiresAt)) {
+      if (job.filePath && fsSync.existsSync(job.filePath)) {
+        await fs.unlink(job.filePath).catch(() => {});
+      }
+      return new NextResponse("O arquivo expirou e não está mais disponível no servidor.", { status: 410 });
+    }
+
+    // 3. Controle de acesso e autorização por Token ou Sessão Administrativa
+    const requestToken = req.nextUrl.searchParams.get("token") || req.headers.get("x-download-token");
+    if (job?.downloadToken && job.downloadToken !== requestToken) {
+      const adminSession = await getAdminSession().catch(() => null);
+      if (!adminSession) {
+        return new NextResponse("Acesso não autorizado para baixar este arquivo de mídia.", { status: 403 });
+      }
+    }
+
+    // 4. Identificar caminho do arquivo: via job ou direto no disco
     let resolvedFilePath = job?.filePath ? path.resolve(job.filePath) : null;
 
     if (!resolvedFilePath || !fsSync.existsSync(resolvedFilePath)) {

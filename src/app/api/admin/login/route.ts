@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { signAdminToken, verifyPassword, ADMIN_COOKIE_NAME } from "@/lib/security/auth";
 import { checkRateLimit, getClientIp } from "@/lib/security/rate-limiter";
+
+function timingSafeCompare(a: string, b: string): boolean {
+  const hashA = crypto.createHash("sha256").update(a).digest();
+  const hashB = crypto.createHash("sha256").update(b).digest();
+  return crypto.timingSafeEqual(hashA, hashB);
+}
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -30,8 +37,8 @@ export async function POST(req: NextRequest) {
 
     const { email, password } = parsed.data;
 
-    const defaultEmail = process.env.ADMIN_DEFAULT_EMAIL || "admin@novaruntime.com";
-    const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || "admin_change_me_123";
+    const envEmail = process.env.ADMIN_DEFAULT_EMAIL;
+    const envPassword = process.env.ADMIN_DEFAULT_PASSWORD;
 
     let admin = await prisma.adminUser.findUnique({
       where: { email },
@@ -41,12 +48,12 @@ export async function POST(req: NextRequest) {
 
     if (admin) {
       isValid = await verifyPassword(password, admin.passwordHash);
-    } else if (email === defaultEmail && password === defaultPassword) {
-      // Login inicial com credencial padrão configurada
+    } else if (envEmail && envPassword && timingSafeCompare(email, envEmail) && timingSafeCompare(password, envPassword)) {
+      // Login inicial com comparação em tempo constante contra timing attacks
       isValid = true;
       admin = {
         id: "default-admin-id",
-        email: defaultEmail,
+        email: envEmail,
         name: "Administrador NOVA",
         role: "admin",
         passwordHash: "",

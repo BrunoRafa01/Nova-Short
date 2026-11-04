@@ -14,8 +14,9 @@ export async function GET(
       return NextResponse.json({ error: "Tarefa de download não encontrada." }, { status: 404 });
     }
 
-    // URL relativa direta para funcionar em localhost, IP local ou produção
-    const downloadUrl = status.status === "completed" ? `/api/download/file/${jobId}` : null;
+    // URL relativa direta com token de autorização
+    const tokenParam = status.downloadToken ? `?token=${encodeURIComponent(status.downloadToken)}` : "";
+    const downloadUrl = status.status === "completed" ? `/api/download/file/${jobId}${tokenParam}` : null;
 
     return NextResponse.json({
       success: true,
