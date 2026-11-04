@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Link2, Download, Zap, Sparkles, BarChart2, QrCode } from "lucide-react";
 import { ShortenerForm } from "@/components/ShortenerForm";
 import { DownloaderForm } from "@/components/DownloaderForm";
 
 function HomeContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState<"shortener" | "downloader">("shortener");
 
