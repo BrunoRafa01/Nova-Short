@@ -1,150 +1,205 @@
-# NOVA SHORT — NOVA RUNTIME
+<p align="center">
+  <img src="docs/images/banner.svg" alt="NOVA SHORT Banner" width="100%" />
+</p>
 
-> SaaS profissional de alta performance para **encurtamento inteligente de links** com telemetria avançada e **downloader seguro de mídia** de plataformas líderes (YouTube, TikTok e Instagram).
+<p align="center">
+  <strong>Plataforma SaaS Profissional de Encurtamento Inteligente de Links &amp; Downloader de Mídia de Alta Performance</strong>
+</p>
 
----
-
-## 🚀 Visão Geral
-
-O **NOVA SHORT** é uma solução completa desenvolvida para o ecossistema **NOVA RUNTIME**, combinando duas ferramentas essenciais em uma experiência dark premium:
-
-1. **Encurtador de Links de Alta Performance**:
-   - Criação de links curtos e slugs personalizados (`/s/meu-link`).
-   - Geração dinâmica de QR Code para compartilhamento rápido.
-   - Redirecionamento instantâneo via HTTP 307 com coleta de telemetria anônima.
-   - Proteção de links por senha e data de expiração.
-   - Dashboard analítico com gráficos interativos de cliques, dispositivos, navegadores e origens de tráfego.
-
-2. **Downloader de Mídia Seguro**:
-   - Suporte a YouTube, TikTok e Instagram.
-   - Análise prévia de links com extração de metadados (título, autor, duração, thumbnail).
-   - Seleção de qualidade: Vídeo MP4 (1080p Full HD, 720p HD, 480p SD) e Áudio MP3 (320kbps, 192kbps).
-   - Processamento assíncrono isolado com FFmpeg e filas BullMQ + Redis.
-   - Barra de progresso em tempo real e download direto do arquivo final.
-   - Compliance estrito com direitos autorais e termos de serviço das plataformas (sem evasão de DRM).
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-15.1-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/React-19.0-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" />
+  <img src="https://img.shields.io/badge/BullMQ-Asynchronous-E34F26?style=for-the-badge&logo=rabbitmq&logoColor=white" alt="BullMQ" />
+  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/Fedora_Linux-Tested-51A2DA?style=for-the-badge&logo=fedora&logoColor=white" alt="Fedora" />
+</p>
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🌟 Demonstração Visual & Telas do Sistema
 
-- **Framework**: Next.js 15 (App Router, Server & Client Components) + React 19
-- **Linguagem**: TypeScript strict mode
-- **Estilização**: Tailwind CSS (Paleta customizada NOVA: `#080B12`, `#101622`, `#3B82F6`)
-- **Banco de Dados**: PostgreSQL 16 + Prisma ORM
-- **Filas & Cache**: Redis 7 + BullMQ (com fallback para fila assíncrona em memória)
-- **Processamento de Mídia**: FFmpeg 8 + yt-dlp (execução segura sem interpolação de shell)
-- **Validação de Schemas**: Zod
-- **Autenticação**: JWT (`jose`) com cookies HTTPOnly e hash bcrypt
-- **Containers**: Docker & Docker Compose
-- **Testes**: Vitest
+### 1. Interface Principal & Encurtador Inteligente
+> Experiência dark futurista com alternador de ferramentas, suporte a slug personalizado, prazos de expiração, proteção por senha e geração instantânea de QR Code com download em PNG.
+
+<p align="center">
+  <img src="docs/images/hero.png" alt="Tela Principal do Encurtador" width="92%" style="border-radius: 12px; border: 1px solid #1E293B;" />
+</p>
 
 ---
 
-## 🔒 Segurança e Resiliência
+### 2. Downloader de Mídia Seguro (YouTube, TikTok, Instagram)
+> Inspeção dinâmica com extração em tempo real de metadados (título, autor, thumbnail, duração), seletor de resolução (1080p, 720p, 480p) ou extração de áudio MP3 (320kbps e 192kbps), fila assíncrona BullMQ e barra de progresso em tempo real.
 
-- **Proteção contra SSRF (Server-Side Request Forgery)**: Validador rigoroso que rejeita esquemas não-HTTP/S, bloqueia requisições para `localhost`, nomes `.local`/`.internal`, endereços IPv4 e IPv6 privados (RFC 1918) e metadados de nuvem (AWS/GCP/Azure `169.254.169.254`).
-- **Prevenção contra Injeção de Comandos**: Argumentos para `yt-dlp` e `ffmpeg` são passados exclusivamente como arrays de parâmetros via `execFile`, eliminando shell escapes.
-- **Prevenção de Path Traversal**: Caminhos de arquivos temporários e downloads são normalizados e confinados estritamente dentro de `STORAGE_DIR`.
-- **Rate Limiting**: Janela deslizante por IP para prevenir abuso nos endpoints de encurtamento, download e login administrativo.
-- **Proteção de Privacidade (GDPR/LGPD)**: IPs de visitantes são anonimizados via hash criptográfico SHA-256 com salt antes do armazenamento.
-- **Proteção de Credenciais**: Arquivos `.env` protegidos e ignorados pelo Git.
+<p align="center">
+  <img src="docs/images/downloader.png" alt="Downloader de Mídia" width="92%" style="border-radius: 12px; border: 1px solid #1E293B;" />
+</p>
 
 ---
 
-## 💻 Instalação e Execução no Fedora Linux
+### 3. Histórico Centralizado & Gerenciamento de Links
+> Gestão completa dos links criados, contagem de cliques, atalho para visualização do QR Code, cópia rápida para área de transferência e remoção segura.
 
-### Pré-requisitos no Fedora:
+<p align="center">
+  <img src="docs/images/historico.png" alt="Histórico de Links" width="92%" style="border-radius: 12px; border: 1px solid #1E293B;" />
+</p>
+
+---
+
+### 4. Telemetria & Estatísticas Analíticas
+> Métricas com gráficos interativos que acompanham a evolução de cliques diários, distribuição por navegadores, tipos de dispositivos (Mobile, Desktop, Tablet) e origens de tráfego.
+
+<p align="center">
+  <img src="docs/images/estatisticas.png" alt="Estatísticas Analíticas" width="92%" style="border-radius: 12px; border: 1px solid #1E293B;" />
+</p>
+
+---
+
+### 5. Painel Administrativo com Acesso Protegido
+> Autenticação segura via cookies HTTPOnly com JWT assinado e painel central para monitoramento de infraestrutura, volume de tráfego e integridade dos workers de conversão.
+
+<p align="center">
+  <img src="docs/images/admin-login.png" alt="Login Administrativo" width="92%" style="border-radius: 12px; border: 1px solid #1E293B;" />
+</p>
+
+---
+
+## ⚡ Arquitetura da Solução
+
+```mermaid
+flowchart TD
+    Client["Navegador / Dispositivo"] -->|HTTP/S| App["Next.js 15 App Router"]
+    
+    subgraph Core ["NOVA SHORT Core Engine"]
+        SSRF["Escudo SSRF & Sanitizer"]
+        RateLimit["Rate Limiter (Sliding Window)"]
+        ShortenerEngine["Motor de Encurtamento & QR Code"]
+        DownloaderEngine["Extrator yt-dlp & FFmpeg"]
+    end
+    
+    App --> SSRF
+    SSRF --> RateLimit
+    RateLimit --> ShortenerEngine
+    RateLimit --> DownloaderEngine
+    
+    subgraph Data ["Camada de Dados & Filas"]
+        Postgres[("PostgreSQL 16\n(Prisma ORM)")]
+        RedisQueue[("Redis 7\n(BullMQ & Cache)")]
+        DiskStorage[("Storage Local Isolado\n(Downloads TTL)")]
+    end
+    
+    ShortenerEngine --> Postgres
+    ShortenerEngine --> RedisQueue
+    DownloaderEngine --> RedisQueue
+    DownloaderEngine --> DiskStorage
+    DownloaderEngine --> Postgres
+```
+
+---
+
+## 🛡️ Pilares de Segurança & Compliance
+
+| Mecanismo de Segurança | Implementação | Proteção Contra |
+| :--- | :--- | :--- |
+| **Filtro SSRF Rigoroso** | `src/lib/security/ssrf.ts` | Bloqueia loopback (`127.0.0.1`), RFC 1918 (`10.x`, `172.16.x`, `192.168.x`) e metadados de nuvem (`169.254.169.254`). |
+| **Imunidade a Command Injection** | `src/lib/downloader/extractor.ts` | Uso estrito de `child_process.execFile` com array de argumentos, sem interpolação de shell. |
+| **Prevenção de Path Traversal** | `src/lib/downloader/extractor.ts` | Normalização e verificação de limites de diretório em `STORAGE_DIR`. |
+| **Anonimização LGPD/GDPR** | `src/app/s/[slug]/route.ts` | Endereços IP de visitantes recebem hash SHA-256 com salt antes do registro de telemetria. |
+| **Limitação de Taxa (Rate Limit)** | `src/lib/security/rate-limiter.ts` | Limite de requisições por janela deslizante por IP via Redis com fallback em memória. |
+| **Compliance de Direitos Autorais** | Termos & Isolamento | Focado em conteúdos autorizados e próprios; não burla DRM ou acessos protegidos. |
+
+---
+
+## 🚀 Instalação e Execução
+
+### Pré-requisitos (Fedora Linux):
 ```bash
 sudo dnf install -y nodejs npm ffmpeg python3 yt-dlp docker docker-compose
 ```
 
-### Opção 1: Execução com Docker Compose (Recomendado para Produção)
-Sobe toda a stack (Aplicação Next.js, PostgreSQL e Redis) com um único comando:
+### 🐳 Opção 1: Inicialização com Docker Compose (Recomendado)
+Sobe a aplicação completa com PostgreSQL 16 e Redis 7 com isolamento total em containers:
 
 ```bash
-# 1. Clone o repositório e acesse a pasta
-cd ~/Projetos/nova-short
+# 1. Clone o repositório
+git clone git@github.com:BrunoRafa01/Nova-Short.git
+cd Nova-Short
 
 # 2. Configure as variáveis de ambiente
 cp .env.example .env
 
-# 3. Suba os containers
+# 3. Suba todos os serviços
 docker compose up -d --build
 
-# 4. A aplicação estará disponível em:
-# http://localhost:3000
+# Acesse: http://localhost:3000
 ```
 
-### Opção 2: Execução Nativa no Fedora (Desenvolvimento)
+### 💻 Opção 2: Execução Nativa no Fedora (Desenvolvimento)
 ```bash
 # 1. Instalar dependências
 npm install
 
-# 2. Gerar cliente do Prisma
+# 2. Gerar Prisma Client
 npm run db:generate
 
-# 3. Executar testes automatizados
+# 3. Executar bateria de testes automatizados
 npm test
 
-# 4. Iniciar servidor de desenvolvimento
+# 4. Iniciar servidor Next.js
 npm run dev
-
-# Acesse no navegador: http://localhost:3000
 ```
 
 ---
 
-## 📁 Estrutura do Projeto
+## ⚙️ Variáveis de Ambiente (`.env`)
 
-```text
-nova-short/
-├── prisma/
-│   └── schema.prisma         # Modelagem PostgreSQL (ShortLink, LinkClick, DownloadJob, AdminUser)
-├── src/
-│   ├── app/
-│   │   ├── page.tsx          # Página Inicial com alternador Encurtador / Downloader
-│   │   ├── encurtador/       # Página do Encurtador
-│   │   ├── downloader/       # Página do Downloader
-│   │   ├── historico/        # Histórico de Links e Downloads
-│   │   ├── estatisticas/     # Dashboard analítico e rotas dinâmicas [slug]
-│   │   ├── admin/            # Login e Painel Administrativo
-│   │   ├── s/[slug]/         # Redirecionamento funcional e coleta de métricas
-│   │   └── api/              # Endpoints REST (shorten, links, download, stats, admin)
-│   ├── components/           # Componentes reativos (Forms, Charts, Modals, Navbar, Footer)
-│   └── lib/
-│       ├── security/         # SSRF validator, Rate limiter, Slug generator, Auth
-│       ├── downloader/       # Extrator de metadados e conversor de mídia
-│       ├── queue/            # Fila BullMQ com fallback assíncrono
-│       ├── prisma.ts         # Singleton do Prisma ORM
-│       └── redis.ts          # Conector Redis
-├── tests/                    # Bateria de testes automatizados Vitest
-├── docker-compose.yml        # Orquestração de containers (Next.js, Postgres, Redis)
-├── Dockerfile                # Build multi-stage de produção
-└── package.json
-```
+| Variável | Padrão | Descrição |
+| :--- | :--- | :--- |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` | URL pública da aplicação para composição dos links curtos. |
+| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:5432/nova_short` | String de conexão do PostgreSQL. |
+| `REDIS_URL` | `redis://localhost:6379` | String de conexão do Redis para o BullMQ e cache. |
+| `JWT_SECRET` | *(Chave segura)* | Chave de assinatura dos tokens JWT da administração. |
+| `ADMIN_DEFAULT_EMAIL` | `admin@novaruntime.com` | E-mail administrativo padrão do sistema. |
+| `ADMIN_DEFAULT_PASSWORD` | `admin_change_me_123` | Senha administrativa padrão inicial. |
+| `STORAGE_DIR` | `./storage/downloads` | Diretório isolado para processamento temporário de mídias. |
+| `DOWNLOAD_MAX_FILE_SIZE_MB`| `250` | Tamanho máximo permitido para processamento de arquivo em MB. |
 
 ---
 
-## 🧪 Testes Automatizados
+## 🧪 Suíte de Testes Automatizados
 
-Para executar os testes:
+O projeto conta com testes unitários e de integração desenvolvidos com **Vitest**:
+
 ```bash
 npm test
 ```
-Resultados cobertos:
-- Validação de endereços IP privados e bloqueio de SSRF.
-- Geração e validação de slugs alfanuméricos e palavras reservadas.
-- Limitação de taxa de requisições (Rate Limiter).
-- Detecção e categorização de plataformas de mídia.
+
+Saída da verificação:
+```text
+ ✓ tests/slug.test.ts (4 tests)
+ ✓ tests/downloader.test.ts (4 tests)
+ ✓ tests/ssrf.test.ts (6 tests)
+ ✓ tests/rate-limiter.test.ts (2 tests)
+
+Test Files  4 passed (4)
+Tests       16 passed (16)
+Duration    565ms
+```
 
 ---
 
-## 👤 Credenciais Padrão do Painel Administrativo
+## 🔑 Acesso Administrativo Inicial
 
 - **URL**: `http://localhost:3000/admin/login`
 - **E-mail**: `admin@novaruntime.com`
-- **Senha**: `admin_change_me_123` *(Altere no arquivo `.env` para produção)*
+- **Senha**: `admin_change_me_123`
 
 ---
 
-Desenvolvido para a **NOVA RUNTIME**.
+## 📄 Licença e Créditos
+
+Desenvolvido com excelência técnica para o ecossistema **NOVA RUNTIME**.  
+Autor: **Bruno Rafa** ([@BrunoRafa01](https://github.com/BrunoRafa01))
