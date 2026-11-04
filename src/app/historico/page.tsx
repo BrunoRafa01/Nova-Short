@@ -40,7 +40,21 @@ export default function HistoricoPage() {
   const [downloads, setDownloads] = useState<DownloadItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [selectedQR, setSelectedQR] = useState<{ url: string; slug: string } | null>(null);
+
+  useEffect(() => {
+    async function checkAdminStatus() {
+      try {
+        const res = await fetch("/api/admin/session");
+        const data = await res.json();
+        if (res.ok && data.authenticated) {
+          setIsAdmin(true);
+        }
+      } catch {}
+    }
+    checkAdminStatus();
+  }, []);
 
   const fetchLinks = useCallback(async () => {
     setLoading(true);
@@ -253,13 +267,15 @@ export default function HistoricoPage() {
                     >
                       <ExternalLink className="w-4 h-4" />
                     </a>
-                    <button
-                      onClick={() => handleDelete(link.id)}
-                      title="Excluir Link"
-                      className="p-2 rounded-lg bg-[#080C15] hover:bg-red-950/40 border border-[#1E2C48] hover:border-red-500/40 text-[#94A3B8] hover:text-red-400 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    {isAdmin && (
+                      <button
+                        onClick={() => handleDelete(link.id)}
+                        title="Excluir Link (Apenas Administrador)"
+                        className="p-2 rounded-lg bg-[#080C15] hover:bg-red-950/40 border border-[#1E2C48] hover:border-red-500/40 text-[#94A3B8] hover:text-red-400 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

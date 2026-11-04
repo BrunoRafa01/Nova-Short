@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Link2, Download, History, BarChart3, Shield, Sparkles, Menu, X } from "lucide-react";
@@ -8,14 +8,36 @@ import { Link2, Download, History, BarChart3, Shield, Sparkles, Menu, X } from "
 export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const navLinks = [
+  useEffect(() => {
+    async function checkAdmin() {
+      try {
+        const res = await fetch("/api/admin/session");
+        const data = await res.json();
+        if (res.ok && data.authenticated) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      } catch {
+        setIsAdmin(false);
+      }
+    }
+    checkAdmin();
+  }, [pathname]);
+
+  const baseLinks = [
     { href: "/encurtador", label: "Encurtador", icon: Link2 },
     { href: "/downloader", label: "Downloader", icon: Download },
     { href: "/historico", label: "Histórico", icon: History },
     { href: "/estatisticas", label: "Estatísticas", icon: BarChart3 },
-    { href: "/admin", label: "Admin", icon: Shield },
   ];
+
+  // A aba Admin só existe e só é exibida se o administrador estiver autenticado com sessão válida
+  const navLinks = isAdmin
+    ? [...baseLinks, { href: "/admin", label: "Gestão Admin", icon: Shield }]
+    : baseLinks;
 
   return (
     <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#080C15]/85 border-b border-[#1E2C48]/80 transition-colors">
