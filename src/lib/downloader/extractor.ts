@@ -176,18 +176,14 @@ export async function processMediaDownload(
       url
     );
   } else {
-    let formatFilter = "bestvideo[height<=1080]+bestaudio/best[height<=1080]/best";
-    if (quality === "1080p") {
-      formatFilter = "bestvideo[height<=1080]+bestaudio/best[height<=1080]/best";
-    } else if (quality === "720p") {
-      formatFilter = "bestvideo[height<=720]+bestaudio/best[height<=720]/best";
-    } else if (quality === "480p") {
-      formatFilter = "bestvideo[height<=480]+bestaudio/best[height<=480]/best";
-    }
+    const maxRes = quality === "1080p" ? 1080 : quality === "720p" ? 720 : 480;
+    const formatFilter = `bestvideo[height<=${maxRes}][vcodec^=avc1]+bestaudio[acodec^=mp4a]/bestvideo[height<=${maxRes}][vcodec^=avc]+bestaudio[acodec^=mp4a]/bestvideo[height<=${maxRes}]+bestaudio[acodec^=mp4a]/bestvideo[height<=${maxRes}]+bestaudio/best[height<=${maxRes}]/best`;
 
     args.push(
       "-f", formatFilter,
+      "-S", "vcodec:h264,acodec:aac",
       "--merge-output-format", "mp4",
+      "--postprocessor-args", "Merger:-c:v copy -c:a aac",
       "-o", targetPath,
       url
     );
