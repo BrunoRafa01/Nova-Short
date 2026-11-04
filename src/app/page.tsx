@@ -22,7 +22,7 @@ function HomeContent() {
   const handleTabChange = (tab: "shortener" | "downloader") => {
     setActiveTab(tab);
     const newUrl = tab === "downloader" ? "/?tab=downloader" : "/?tab=shortener";
-    window.history.replaceState(null, "", newUrl);
+    window.history.pushState(null, "", newUrl);
   };
 
   return (
@@ -49,14 +49,20 @@ function HomeContent() {
 
         {/* Tab Switcher */}
         <div className="flex items-center justify-center mt-8">
-          <div className="p-1 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-inner flex space-x-1">
+          <div
+            className="p-1 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-inner flex space-x-1"
+            role="tablist"
+            aria-label="Seleção de Ferramenta"
+          >
             <button
               type="button"
+              role="tab"
+              aria-selected={activeTab === "shortener"}
               onClick={() => handleTabChange("shortener")}
-              className={`flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`cursor-pointer flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 select-none ${
                 activeTab === "shortener"
                   ? "bg-[#3B82F6] text-white shadow-nova-glow"
-                  : "text-[#94A3B8] hover:text-[#F8FAFC]"
+                  : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#152238]"
               }`}
             >
               <Link2 className="w-4 h-4" />
@@ -65,11 +71,13 @@ function HomeContent() {
 
             <button
               type="button"
+              role="tab"
+              aria-selected={activeTab === "downloader"}
               onClick={() => handleTabChange("downloader")}
-              className={`flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+              className={`cursor-pointer flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 select-none ${
                 activeTab === "downloader"
                   ? "bg-[#3B82F6] text-white shadow-nova-glow"
-                  : "text-[#94A3B8] hover:text-[#F8FAFC]"
+                  : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#152238]"
               }`}
             >
               <Download className="w-4 h-4" />
@@ -122,7 +130,7 @@ function HomeContent() {
 
 export default function HomePage() {
   return (
-    <Suspense fallback={<div className="flex-1 flex items-center justify-center py-20 text-xs text-[#94A3B8]">Carregando ferramentas...</div>}>
+    <Suspense fallback={<div className="flex-1 flex items-center justify-center py-20 text-xs text-[#94A3B8]">Carregando ecossistema...</div>}>
       <HomeContent />
     </Suspense>
   );

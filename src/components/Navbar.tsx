@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Link2, Download, History, BarChart3, Shield, Sparkles, Menu, X } from "lucide-react";
 
 export function Navbar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab") || "shortener";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -28,8 +30,8 @@ export function Navbar() {
   }, [pathname]);
 
   const baseLinks = [
-    { href: "/encurtador", label: "Encurtador", icon: Link2 },
-    { href: "/downloader", label: "Downloader", icon: Download },
+    { href: "/?tab=shortener", label: "Encurtador", icon: Link2 },
+    { href: "/?tab=downloader", label: "Downloader", icon: Download },
     { href: "/historico", label: "Histórico", icon: History },
     { href: "/estatisticas", label: "Estatísticas", icon: BarChart3 },
   ];
@@ -38,6 +40,15 @@ export function Navbar() {
   const navLinks = isAdmin
     ? [...baseLinks, { href: "/admin", label: "Gestão Admin", icon: Shield }]
     : baseLinks;
+
+  const isItemActive = (href: string) => {
+    if (pathname === "/") {
+      if (href === "/?tab=shortener") return currentTab === "shortener";
+      if (href === "/?tab=downloader") return currentTab === "downloader";
+      return false;
+    }
+    return href !== "/?tab=shortener" && href !== "/?tab=downloader" && pathname.startsWith(href);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#080C15]/85 border-b border-[#1E2C48]/80 transition-colors">
@@ -61,13 +72,13 @@ export function Navbar() {
         <nav className="hidden md:flex items-center space-x-1">
           {navLinks.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            const active = isItemActive(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
-                  isActive
+                  active
                     ? "bg-[#101828] text-[#60A5FA] border border-[#3B82F6]/50 shadow-sm"
                     : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#101828]/60"
                 }`}
@@ -96,14 +107,14 @@ export function Navbar() {
         <div className="md:hidden bg-[#0D1322] border-b border-[#1E2C48] px-4 pt-2 pb-4 space-y-1 animate-fade-in shadow-2xl">
           {navLinks.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+            const active = isItemActive(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={`flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                  isActive
+                  active
                     ? "bg-[#101828] text-[#60A5FA] border border-[#3B82F6]/50 shadow-sm"
                     : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-[#101828]/50"
                 }`}
