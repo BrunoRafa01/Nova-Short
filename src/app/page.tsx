@@ -1,12 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { Link2, Download, Zap, Shield, Sparkles, BarChart2, QrCode } from "lucide-react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Link2, Download, Zap, Sparkles, BarChart2, QrCode } from "lucide-react";
 import { ShortenerForm } from "@/components/ShortenerForm";
 import { DownloaderForm } from "@/components/DownloaderForm";
 
-export default function HomePage() {
+function HomeContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const tabParam = searchParams.get("tab");
   const [activeTab, setActiveTab] = useState<"shortener" | "downloader">("shortener");
+
+  useEffect(() => {
+    if (tabParam === "downloader") {
+      setActiveTab("downloader");
+    } else if (tabParam === "shortener") {
+      setActiveTab("shortener");
+    }
+  }, [tabParam]);
+
+  const handleTabChange = (tab: "shortener" | "downloader") => {
+    setActiveTab(tab);
+    const newUrl = tab === "downloader" ? "/?tab=downloader" : "/?tab=shortener";
+    window.history.replaceState(null, "", newUrl);
+  };
 
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-10 pb-16">
@@ -35,7 +53,7 @@ export default function HomePage() {
           <div className="p-1 rounded-2xl bg-[#101828] border border-[#1E2C48] shadow-inner flex space-x-1">
             <button
               type="button"
-              onClick={() => setActiveTab("shortener")}
+              onClick={() => handleTabChange("shortener")}
               className={`flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
                 activeTab === "shortener"
                   ? "bg-[#3B82F6] text-white shadow-nova-glow"
@@ -48,7 +66,7 @@ export default function HomePage() {
 
             <button
               type="button"
-              onClick={() => setActiveTab("downloader")}
+              onClick={() => handleTabChange("downloader")}
               className={`flex items-center space-x-2 px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
                 activeTab === "downloader"
                   ? "bg-[#3B82F6] text-white shadow-nova-glow"
@@ -100,5 +118,13 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div className="flex-1 flex items-center justify-center py-20 text-xs text-[#94A3B8]">Carregando ferramentas...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
