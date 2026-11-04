@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #080B12;
+  --foreground: #F8FAFC;
+}
+
+body {
+  background-color: #080B12;
+  color: #F8FAFC;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080B12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3B82F6;
+}
+
+/* Glassmorphism & Glow utilities */
+.nova-glow-border {
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.15);
+}
+
+.nova-glow-border:hover {
+  border-color: rgba(96, 165, 250, 0.4);
+  box-shadow: 0 0 25px -3px rgba(59, 130, 246, 0.3);
+}
+
+.nova-gradient-text {
+  background: linear-gradient(135deg, #F8FAFC 0%, #94A3B8 50%, #3B82F6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
