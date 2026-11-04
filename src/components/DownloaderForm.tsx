@@ -367,11 +367,27 @@ export function DownloaderForm() {
                 <a
                   href={downloadReadyUrl}
                   download
-                  className="inline-flex items-center justify-center space-x-2 w-full py-3 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm transition-all shadow-lg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center space-x-2 w-full py-3 px-6 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-sm transition-all shadow-lg cursor-pointer"
                 >
                   <Download className="w-4 h-4" />
                   <span>Salvar Arquivo no Computador</span>
                 </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMetadata(null);
+                    setUrl("");
+                    setJobId(null);
+                    setDownloadReadyUrl(null);
+                    setProgress(0);
+                    setJobStatus(null);
+                  }}
+                  className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] underline pt-1 block mx-auto"
+                >
+                  Baixar outro vídeo ou música
+                </button>
               </div>
             )}
 

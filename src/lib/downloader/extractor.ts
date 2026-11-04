@@ -2,6 +2,7 @@ import { execFile } from "child_process";
 import { promisify } from "util";
 import path from "path";
 import fs from "fs/promises";
+import fsSync from "fs";
 import crypto from "crypto";
 
 const execFileAsync = promisify(execFile);
@@ -42,20 +43,22 @@ export function detectPlatform(url: string): string {
 export async function analyzeMediaUrl(url: string): Promise<MediaMetadata> {
   const platform = detectPlatform(url);
 
-  // Executar yt-dlp de forma segura com argumentos estritos (sem shell)
+  // Argumentos robustos para yt-dlp sem injeção de shell
   const args = [
     "--dump-json",
     "--no-warnings",
     "--no-check-certificates",
     "--skip-download",
     "--socket-timeout", "15",
+    "--force-ipv4",
+    "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     url,
   ];
 
   try {
     const { stdout } = await execFileAsync("yt-dlp", args, {
-      timeout: 25000,
-      maxBuffer: 10 * 1024 * 1024,
+      timeout: 30000,
+      maxBuffer: 15 * 1024 * 1024,
     });
 
     const info = JSON.parse(stdout);
@@ -65,10 +68,7 @@ export async function analyzeMediaUrl(url: string): Promise<MediaMetadata> {
     const duration = Math.round(Number(info.duration) || 0);
     const author = info.uploader || info.channel || info.creator || "Criador";
 
-    const availableFormats: MediaFormatOption[] = [];
-
-    // Formatos padrão consolidados de alta compatibilidade
-    availableFormats.push(
+    const availableFormats: MediaFormatOption[] = [
       {
         formatId: "bestvideo[height<=1080]+bestaudio/best[height<=1080]/best",
         type: "video",
@@ -106,8 +106,8 @@ export async function analyzeMediaUrl(url: string): Promise<MediaMetadata> {
         extension: "mp3",
         quality: "192k",
         label: "Áudio Padrão (MP3 192kbps)",
-      }
-    );
+      },
+    ];
 
     return {
       id: info.id || crypto.randomUUID(),
@@ -162,10 +162,13 @@ export async function processMediaDownload(
     "--no-warnings",
     "--no-check-certificates",
     "--socket-timeout", "20",
+    "--force-ipv4",
+    "--user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
   ];
 
   if (isAudio) {
     args.push(
+      "-f", "bestaudio/best",
       "-x",
       "--audio-format", "mp3",
       "--audio-quality", quality === "320k" ? "0" : "2",
@@ -173,13 +176,13 @@ export async function processMediaDownload(
       url
     );
   } else {
-    let formatFilter = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best";
+    let formatFilter = "bestvideo[height<=1080]+bestaudio/best[height<=1080]/best";
     if (quality === "1080p") {
-      formatFilter = "bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]/best";
+      formatFilter = "bestvideo[height<=1080]+bestaudio/best[height<=1080]/best";
     } else if (quality === "720p") {
-      formatFilter = "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]/best";
+      formatFilter = "bestvideo[height<=720]+bestaudio/best[height<=720]/best";
     } else if (quality === "480p") {
-      formatFilter = "bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480]/best";
+      formatFilter = "bestvideo[height<=480]+bestaudio/best[height<=480]/best";
     }
 
     args.push(
@@ -195,22 +198,40 @@ export async function processMediaDownload(
   try {
     await execFileAsync("yt-dlp", args, {
       timeout: 180000, // 3 minutos max
-      maxBuffer: 20 * 1024 * 1024,
+      maxBuffer: 25 * 1024 * 1024,
     });
 
     if (onProgress) onProgress(85);
 
-    const stats = await fs.stat(targetPath);
+    // Verificar se o arquivo foi criado no caminho esperado ou com pequenas variações
+    let finalPath = targetPath;
+    if (!fsSync.existsSync(finalPath)) {
+      // Buscar se yt-dlp gerou com extensão diferente e renomear/ajustar
+      const candidates = [
+        path.join(outputDir, `nova_${jobId}.mp4`),
+        path.join(outputDir, `nova_${jobId}.mp3`),
+        path.join(outputDir, `nova_${jobId}.m4a`),
+        path.join(outputDir, `nova_${jobId}.webm`),
+      ];
+      const found = candidates.find((c) => fsSync.existsSync(c));
+      if (found) {
+        finalPath = found;
+      } else {
+        throw new Error("Arquivo de mídia final não foi encontrado no disco após processamento.");
+      }
+    }
+
+    const stats = await fs.stat(finalPath);
     if (onProgress) onProgress(100);
 
     return {
-      filePath: targetPath,
-      fileName: safeFilename,
+      filePath: finalPath,
+      fileName: path.basename(finalPath),
       fileSize: stats.size,
       mimeType: isAudio ? "audio/mpeg" : "video/mp4",
     };
   } catch (err: unknown) {
-    // Limpeza de resíduos em caso de erro
+    // Limpeza de resíduos
     await fs.unlink(targetPath).catch(() => {});
     throw new Error(`Erro ao baixar a mídia: ${err instanceof Error ? err.message : String(err)}`);
   }

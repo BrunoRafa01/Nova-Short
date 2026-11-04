@@ -14,8 +14,8 @@ export async function GET(
       return NextResponse.json({ error: "Tarefa de download não encontrada." }, { status: 404 });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const downloadUrl = status.status === "completed" ? `${appUrl}/api/download/file/${jobId}` : null;
+    // URL relativa direta para funcionar em localhost, IP local ou produção
+    const downloadUrl = status.status === "completed" ? `/api/download/file/${jobId}` : null;
 
     return NextResponse.json({
       success: true,

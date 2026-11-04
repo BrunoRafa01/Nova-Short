@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
+import fsSync from "fs";
 import { createReadStream } from "fs";
 import { Readable } from "stream";
 import path from "path";
@@ -11,35 +12,50 @@ export async function GET(
 ) {
   try {
     const { jobId } = await params;
+    const storageDir = path.resolve(process.env.STORAGE_DIR || "./storage/downloads");
 
     const job = await getJobStatus(jobId);
 
-    if (!job || job.status !== "completed" || !job.filePath) {
-      return new NextResponse("Arquivo não encontrado ou processamento ainda não concluído.", {
+    // Identificar caminho do arquivo: via job ou direto no disco
+    let resolvedFilePath = job?.filePath ? path.resolve(job.filePath) : null;
+
+    if (!resolvedFilePath || !fsSync.existsSync(resolvedFilePath)) {
+      const candidates = [
+        path.join(storageDir, `nova_${jobId}.mp4`),
+        path.join(storageDir, `nova_${jobId}.mp3`),
+        path.join(storageDir, `nova_${jobId}.m4a`),
+        path.join(storageDir, `nova_${jobId}.webm`),
+      ];
+      const found = candidates.find((c) => fsSync.existsSync(c));
+      if (found) {
+        resolvedFilePath = found;
+      }
+    }
+
+    if (!resolvedFilePath || !fsSync.existsSync(resolvedFilePath)) {
+      return new NextResponse("Arquivo de mídia não encontrado ou ainda em processamento.", {
         status: 404,
       });
     }
 
-    const storageDir = path.resolve(process.env.STORAGE_DIR || "./storage/downloads");
-    const normalizedFilePath = path.resolve(job.filePath);
-
     // Proteção rigorosa contra Path Traversal
-    if (!normalizedFilePath.startsWith(storageDir)) {
+    if (!resolvedFilePath.startsWith(storageDir)) {
       return new NextResponse("Acesso não autorizado.", { status: 403 });
     }
 
     try {
-      const stats = await fs.stat(normalizedFilePath);
-      const isAudio = normalizedFilePath.endsWith(".mp3");
-      const ext = isAudio ? "mp3" : "mp4";
-      const sanitizedTitle = (job.title || "nova-media")
+      const stats = await fs.stat(resolvedFilePath);
+      const isAudio = resolvedFilePath.endsWith(".mp3") || resolvedFilePath.endsWith(".m4a");
+      const ext = path.extname(resolvedFilePath).replace(".", "") || (isAudio ? "mp3" : "mp4");
+      
+      const sanitizedTitle = (job?.title || "nova_media")
         .replace(/[^a-zA-Z0-9_\-]/g, "_")
         .slice(0, 50);
 
       const downloadFileName = `${sanitizedTitle}.${ext}`;
 
       // Criar stream de leitura
-      const nodeStream = createReadStream(normalizedFilePath);
+      const nodeStream = createReadStream(resolvedFilePath);
       const webStream = Readable.toWeb(nodeStream) as ReadableStream<Uint8Array>;
 
       return new NextResponse(webStream, {
@@ -51,12 +67,12 @@ export async function GET(
         },
       });
     } catch {
-      return new NextResponse("Arquivo de mídia expirado ou indisponível no servidor.", {
-        status: 410,
+      return new NextResponse("Erro ao ler o arquivo de mídia no servidor.", {
+        status: 500,
       });
     }
   } catch (err) {
     console.error("Erro ao servir arquivo:", err);
-    return new NextResponse("Erro ao processar download do arquivo.", { status: 500 });
+    return new NextResponse("Erro interno ao processar o download.", { status: 500 });
   }
 }
