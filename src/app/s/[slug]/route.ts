@@ -61,13 +61,13 @@ function renderHtmlStatusPage({
   const formHtml = isPasswordPrompt
     ? `
       <form method="POST" action="/s/${safeSlug}" style="margin-top: 16px;">
-        ${safeError ? `<div style="background-color: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">${safeError}</div>` : ""}
-        <input type="password" name="password" required placeholder="Digite a senha de acesso..." style="width: 100%; box-sizing: border-box; padding: 12px 16px; background-color: #080C15; border: 1px solid #1E2C48; border-radius: 10px; color: #F8FAFC; font-size: 14px; margin-bottom: 16px; outline: none;" />
-        <button type="submit" style="width: 100%; background-color: #3B82F6; color: white; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: background-color 0.2s;">Desbloquear e Acessar</button>
+        ${safeError ? `<div style="background-color: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.25); color: #FCA5A5; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">${safeError}</div>` : ""}
+        <input type="password" name="password" required placeholder="Digite a senha de acesso..." style="width: 100%; box-sizing: border-box; padding: 12px 16px; background-color: #07080B; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; color: #F8FAFC; font-size: 14px; margin-bottom: 16px; outline: none;" />
+        <button type="submit" style="width: 100%; background-color: #1E2536; color: white; padding: 12px 24px; border-radius: 10px; font-size: 13px; font-weight: 600; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: background-color 0.2s;">Desbloquear e Acessar</button>
       </form>
     `
     : `
-      <a href="/" style="display: inline-block; background-color: #3B82F6; color: white; padding: 12px 24px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: 600; transition: background-color 0.2s;">Voltar para o Início</a>
+      <a href="/" style="display: inline-block; background-color: #1E2536; color: white; padding: 10px 22px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: 500; border: 1px solid rgba(255,255,255,0.1); transition: background-color 0.2s;">Voltar para o Início</a>
     `;
 
   const html = `<!DOCTYPE html>
@@ -77,12 +77,12 @@ function renderHtmlStatusPage({
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${safeTitle} — NOVA SHORT</title>
   <style>
-    body { margin: 0; background-color: #080C15; color: #F8FAFC; font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
-    .card { background-color: #101828; border: 1px solid #1E2C48; border-radius: 16px; padding: 36px 32px; max-width: 440px; width: 100%; text-align: center; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); }
-    .badge { display: inline-block; padding: 5px 14px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; background-color: ${badgeBg}; color: ${badgeColor}; }
-    h1 { font-size: 20px; margin: 0 0 10px; color: #F8FAFC; font-weight: 700; }
-    p { font-size: 14px; color: #94A3B8; margin: 0 0 24px; line-height: 1.5; }
-    .brand { font-size: 12px; color: #64748B; margin-top: 24px; letter-spacing: 1px; font-weight: 600; }
+    body { margin: 0; background-color: #07080B; color: #F8FAFC; font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+    .card { background-color: #0B0E14; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 36px 32px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 18px; background-color: ${badgeBg}; color: ${badgeColor}; }
+    h1 { font-size: 18px; margin: 0 0 10px; color: #F8FAFC; font-weight: 700; }
+    p { font-size: 13px; color: #94A3B8; margin: 0 0 24px; line-height: 1.5; }
+    .brand { font-size: 11px; color: #64748B; margin-top: 24px; letter-spacing: 1px; font-weight: 500; }
   </style>
 </head>
 <body>

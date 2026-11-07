@@ -12,7 +12,8 @@
     "db:generate": "prisma generate",
     "db:seed": "node scripts/seed.mjs",
     "env:check": "node scripts/check-environment.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:stress": "vitest run tests/stress-1000.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.3.0",

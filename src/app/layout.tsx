@@ -1,14 +1,37 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
+export const viewport: Viewport = {
+  themeColor: "#07080B",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
-  title: "NOVA SHORT — Encurtador de Links & Downloader | NOVA RUNTIME",
+  title: "NOVA SHORT — Encurtador Inteligente & Downloader",
   description:
-    "SaaS profissional da NOVA RUNTIME para encurtamento inteligente de URLs com telemetria avançada e download de mídia seguro de YouTube, TikTok e Instagram.",
-  keywords: ["encurtador de link", "url shortener", "downloader", "youtube downloader", "tiktok downloader", "instagram downloader", "nova runtime"],
+    "Plataforma minimalista e de alta performance da NOVA RUNTIME para encurtamento inteligente de URLs com telemetria e download de mídia com blindagem de segurança completa.",
+  keywords: [
+    "encurtador de link",
+    "url shortener",
+    "downloader",
+    "youtube downloader",
+    "tiktok downloader",
+    "instagram downloader",
+    "nova runtime",
+    "pwa",
+  ],
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "NovaShort",
+  },
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
@@ -27,8 +50,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark">
-      <body className="min-h-screen flex flex-col bg-[#080C15] text-[#F8FAFC] antialiased selection:bg-[#3B82F6] selection:text-white">
-        <Suspense fallback={<div className="h-16 w-full bg-[#080C15]/85 border-b border-[#1E2C48]/80" />}>
+      <body className="min-h-screen flex flex-col bg-[#07080B] text-[#F8FAFC] antialiased selection:bg-[#3B82F6]/30 selection:text-white">
+        <Suspense fallback={<div className="h-16 w-full bg-[#07080B]/90 border-b border-white/5" />}>
           <Navbar />
         </Suspense>
         <main className="flex-1 flex flex-col">{children}</main>

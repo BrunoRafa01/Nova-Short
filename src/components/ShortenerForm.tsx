@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Sparkles, QrCode, ExternalLink, ArrowRight, Clock, Key, BarChart2, Video, Download, CheckCircle2, Share2 } from "lucide-react";
+import { Link2, Sparkles, QrCode, ExternalLink, ArrowRight, Clock, Key, BarChart2, Video, Download } from "lucide-react";
 import { CopyButton } from "./CopyButton";
 import { QRCodeModal } from "./QRCodeModal";
 import Link from "next/link";
@@ -57,7 +57,6 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
     e.preventDefault();
     if (!url.trim()) return;
 
-    // Normalização automática: adiciona https:// se o usuário colar sem protocolo
     const rawUrl = url.trim();
     const normalizedUrl = /^https?:\/\//i.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
 
@@ -113,15 +112,15 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-[#101828] border border-[#1E2C48] rounded-2xl p-6 sm:p-8 shadow-nova-card nova-glow-border transition-all">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="bg-[#0B0E14] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl transition-all">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="url-input" className="block text-xs font-semibold uppercase tracking-wider text-[#94A3B8] mb-2">
-              URL de Destino (Sites, YouTube, TikTok, Instagram...)
+            <label htmlFor="url-input" className="block text-xs font-medium uppercase tracking-wider text-[#94A3B8] mb-2">
+              URL de Destino
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#64748B]">
-                <Link2 className="w-5 h-5 text-[#3B82F6]" />
+                <Link2 className="w-4 h-4 text-[#94A3B8]" />
               </div>
               <input
                 id="url-input"
@@ -129,28 +128,28 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                 required
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://exemplo.com ou youtube.com, tiktok.com/@usuario..."
-                className="w-full pl-11 pr-4 py-3 bg-[#080C15] border border-[#1E2C48] rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] text-sm transition-colors"
+                placeholder="https://exemplo.com ou cole links de vídeos..."
+                className="w-full pl-10 pr-4 py-3 bg-[#07080B] border border-white/10 rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 text-xs sm:text-sm transition-all"
               />
             </div>
 
             {/* Notificação Inteligente de Mídia */}
             {videoInfo.isVideo && (
-              <div className="mt-2.5 p-3 rounded-xl bg-[#3B82F6]/10 border border-[#3B82F6]/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs animate-fade-in">
-                <div className="flex items-center space-x-2 text-[#60A5FA]">
-                  <Video className="w-4 h-4 text-[#3B82F6] flex-shrink-0" />
+              <div className="mt-3 p-3 rounded-xl bg-[#10141E] border border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs animate-fade-in">
+                <div className="flex items-center space-x-2 text-[#CBD5E1]">
+                  <Video className="w-3.5 h-3.5 text-[#3B82F6] flex-shrink-0" />
                   <span>
-                    Vídeo do <strong>{videoInfo.platformName}</strong> detectado! Você pode encurtar este link ou baixá-lo diretamente.
+                    Vídeo do <strong>{videoInfo.platformName}</strong> detectado.
                   </span>
                 </div>
                 {onSwitchToDownloader && (
                   <button
                     type="button"
                     onClick={() => onSwitchToDownloader(url.trim())}
-                    className="inline-flex items-center justify-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#3B82F6] hover:bg-[#60A5FA] text-white font-medium text-xs transition-colors shadow-sm cursor-pointer whitespace-nowrap self-start sm:self-auto"
+                    className="inline-flex items-center justify-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#1E2536] hover:bg-[#253046] border border-white/10 text-[#F8FAFC] font-medium text-xs transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Baixar no Downloader</span>
+                    <span>Usar Downloader</span>
                   </button>
                 )}
               </div>
@@ -159,8 +158,8 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
 
           {/* Seleção de Formato Preferencial: Link ou QR Code */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#94A3B8] mb-2">
-              Escolha o Formato Principal de Saída
+            <label className="block text-xs font-medium uppercase tracking-wider text-[#94A3B8] mb-2">
+              Formato de Saída
             </label>
             <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Formato de saída">
               <button
@@ -170,16 +169,16 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                 onClick={() => setOutputPreference("link")}
                 className={`cursor-pointer p-3 rounded-xl border flex items-center space-x-3 transition-all ${
                   outputPreference === "link"
-                    ? "bg-[#3B82F6]/15 border-[#3B82F6] text-[#F8FAFC] shadow-nova-glow"
-                    : "bg-[#080C15] border-[#1E2C48] text-[#94A3B8] hover:text-[#F8FAFC] hover:border-[#3B82F6]/40"
+                    ? "bg-[#141A26] border-white/20 text-[#F8FAFC] shadow-sm"
+                    : "bg-[#07080B] border-white/5 text-[#94A3B8] hover:text-[#F8FAFC] hover:border-white/15"
                 }`}
               >
-                <div className={`p-2 rounded-lg ${outputPreference === "link" ? "bg-[#3B82F6] text-white" : "bg-[#152238] text-[#94A3B8]"}`}>
-                  <Link2 className="w-4 h-4" />
+                <div className={`p-2 rounded-lg ${outputPreference === "link" ? "bg-[#1E2536] text-white" : "bg-[#0E121B] text-[#64748B]"}`}>
+                  <Link2 className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-left">
-                  <div className="text-xs font-semibold text-[#F8FAFC]">Link Curto</div>
-                  <div className="text-[10px] text-[#94A3B8]">Telemetria e Redirecionamento</div>
+                  <div className="text-xs font-medium text-[#F8FAFC]">Link Curto</div>
+                  <div className="text-[10px] text-[#64748B]">Redirecionamento & Métricas</div>
                 </div>
               </button>
 
@@ -190,16 +189,16 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                 onClick={() => setOutputPreference("qrcode")}
                 className={`cursor-pointer p-3 rounded-xl border flex items-center space-x-3 transition-all ${
                   outputPreference === "qrcode"
-                    ? "bg-[#3B82F6]/15 border-[#3B82F6] text-[#F8FAFC] shadow-nova-glow"
-                    : "bg-[#080C15] border-[#1E2C48] text-[#94A3B8] hover:text-[#F8FAFC] hover:border-[#3B82F6]/40"
+                    ? "bg-[#141A26] border-white/20 text-[#F8FAFC] shadow-sm"
+                    : "bg-[#07080B] border-white/5 text-[#94A3B8] hover:text-[#F8FAFC] hover:border-white/15"
                 }`}
               >
-                <div className={`p-2 rounded-lg ${outputPreference === "qrcode" ? "bg-[#3B82F6] text-white" : "bg-[#152238] text-[#94A3B8]"}`}>
-                  <QrCode className="w-4 h-4" />
+                <div className={`p-2 rounded-lg ${outputPreference === "qrcode" ? "bg-[#1E2536] text-white" : "bg-[#0E121B] text-[#64748B]"}`}>
+                  <QrCode className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-left">
-                  <div className="text-xs font-semibold text-[#F8FAFC]">QR Code Digital</div>
-                  <div className="text-[10px] text-[#94A3B8]">Pronto para Escanear e Salvar</div>
+                  <div className="text-xs font-medium text-[#F8FAFC]">QR Code Digital</div>
+                  <div className="text-[10px] text-[#64748B]">Escanear & Salvar</div>
                 </div>
               </button>
             </div>
@@ -210,21 +209,21 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
             <button
               type="button"
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="text-xs text-[#60A5FA] hover:underline flex items-center space-x-1 cursor-pointer"
+              className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] flex items-center space-x-1 cursor-pointer transition-colors"
             >
-              <span>{showAdvanced ? "Ocultar opções avançadas" : "+ Opções avançadas (slug, expiração, senha)"}</span>
+              <span>{showAdvanced ? "Ocultar configurações adicionais" : "+ Opções adicionais (slug personalizado, senha, validade)"}</span>
             </button>
           </div>
 
           {showAdvanced && (
-            <div className="space-y-4 pt-2 border-t border-[#1E2C48] animate-fade-in">
+            <div className="space-y-4 pt-3 border-t border-white/5 animate-fade-in">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="custom-slug" className="block text-xs font-medium text-[#94A3B8] mb-1">
                     Slug Personalizado (opcional)
                   </label>
-                  <div className="flex rounded-xl overflow-hidden border border-[#1E2C48] bg-[#080C15]">
-                    <span className="px-2.5 py-2 text-xs text-[#64748B] bg-[#152238] border-r border-[#1E2C48] flex items-center">
+                  <div className="flex rounded-xl overflow-hidden border border-white/10 bg-[#07080B]">
+                    <span className="px-2.5 py-2 text-xs text-[#64748B] bg-[#0E121B] border-r border-white/5 flex items-center">
                       /s/
                     </span>
                     <input
@@ -233,22 +232,22 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                       value={customSlug}
                       onChange={(e) => setCustomSlug(e.target.value)}
                       placeholder="meu-link"
-                      className="w-full px-3 py-2 bg-transparent text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none"
+                      className="w-full px-3 py-2 bg-transparent text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="link-title" className="block text-xs font-medium text-[#94A3B8] mb-1">
-                    Título do Link (opcional)
+                    Título (opcional)
                   </label>
                   <input
                     id="link-title"
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Ex: Campanha de Lançamento"
-                    className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                    placeholder="Ex: Campanha Especial"
+                    className="w-full px-3 py-2 bg-[#07080B] border border-white/10 rounded-xl text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-white/30"
                   />
                 </div>
               </div>
@@ -256,7 +255,7 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="expires-at" className="block text-xs font-medium text-[#94A3B8] mb-1 flex items-center space-x-1">
-                    <Clock className="w-3.5 h-3.5 text-[#3B82F6]" />
+                    <Clock className="w-3 h-3 text-[#64748B]" />
                     <span>Data de Expiração (opcional)</span>
                   </label>
                   <input
@@ -264,22 +263,22 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                     type="datetime-local"
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-xs text-[#F8FAFC] focus:outline-none focus:border-[#3B82F6]"
+                    className="w-full px-3 py-2 bg-[#07080B] border border-white/10 rounded-xl text-xs text-[#F8FAFC] focus:outline-none focus:border-white/30"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="password-prot" className="block text-xs font-medium text-[#94A3B8] mb-1 flex items-center space-x-1">
-                    <Key className="w-3.5 h-3.5 text-[#3B82F6]" />
-                    <span>Senha de Proteção (opcional)</span>
+                    <Key className="w-3 h-3 text-[#64748B]" />
+                    <span>Senha de Acesso (opcional)</span>
                   </label>
                   <input
                     id="password-prot"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Senha para redirecionar"
-                    className="w-full px-3 py-2 bg-[#080C15] border border-[#1E2C48] rounded-xl text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-[#3B82F6]"
+                    placeholder="Proteção para redirecionar"
+                    className="w-full px-3 py-2 bg-[#07080B] border border-white/10 rounded-xl text-xs sm:text-sm text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-white/30"
                   />
                 </div>
               </div>
@@ -287,53 +286,52 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
           )}
 
           {error && (
-            <div className="p-3.5 rounded-xl bg-red-950/40 border border-red-500/30 text-red-400 text-xs flex items-center space-x-2">
-              <span>⚠️ {error}</span>
+            <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-red-400 text-xs flex items-center space-x-2">
+              <span>{error}</span>
             </div>
           )}
 
           <button
             type="submit"
             disabled={loading || !url.trim()}
-            className="w-full py-3.5 px-6 rounded-xl bg-[#3B82F6] hover:bg-[#60A5FA] text-white font-medium text-sm flex items-center justify-center space-x-2 shadow-nova-glow transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer"
+            className="w-full py-3 px-6 rounded-xl bg-[#1E293B] hover:bg-[#334155] border border-white/10 text-white font-medium text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <span className="flex items-center space-x-2">
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Processando encurtamento ultrarrápido...</span>
+                <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>Processando link...</span>
               </span>
             ) : (
               <>
-                <Sparkles className="w-4 h-4 text-white group-hover:rotate-12 transition-transform" />
+                <Sparkles className="w-3.5 h-3.5 text-slate-300" />
                 <span>
-                  {outputPreference === "qrcode" ? "Gerar QR Code & Encurtar" : "Encurtar Link Agora"}
+                  {outputPreference === "qrcode" ? "Gerar QR Code & Encurtar" : "Encurtar Link"}
                 </span>
-                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 ml-1" />
               </>
             )}
           </button>
         </form>
 
-        {/* Card de Resultado com Escolha Dinâmica entre Link e QR Code */}
+        {/* Card de Resultado Clean */}
         {result && (
-          <div className="mt-6 pt-6 border-t border-[#1E2C48] animate-fade-in">
-            <div className="bg-[#080C15] p-5 sm:p-6 rounded-2xl border border-[#3B82F6]/30 shadow-nova-card">
-              {/* Header do Resultado com Switcher de Visualização */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-[#1E2C48]">
-                {/* Abas de Escolha no Resultado */}
-                <div className="p-1 rounded-xl bg-[#101828] border border-[#1E2C48] inline-flex space-x-1" role="tablist">
+          <div className="mt-6 pt-6 border-t border-white/10 animate-fade-in">
+            <div className="bg-[#07080B] p-5 sm:p-6 rounded-2xl border border-white/10">
+              {/* Header do Resultado */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-white/5">
+                <div className="p-1 rounded-xl bg-[#0B0E14] border border-white/10 inline-flex space-x-1" role="tablist">
                   <button
                     type="button"
                     role="tab"
                     aria-selected={resultTab === "link"}
                     onClick={() => setResultTab("link")}
-                    className={`cursor-pointer flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    className={`cursor-pointer flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       resultTab === "link"
-                        ? "bg-[#3B82F6] text-white shadow-sm"
+                        ? "bg-[#1E2536] text-[#F8FAFC]"
                         : "text-[#94A3B8] hover:text-[#F8FAFC]"
                     }`}
                   >
-                    <Link2 className="w-3.5 h-3.5" />
+                    <Link2 className="w-3 h-3" />
                     <span>Link Curto</span>
                   </button>
 
@@ -342,65 +340,60 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                     role="tab"
                     aria-selected={resultTab === "qrcode"}
                     onClick={() => setResultTab("qrcode")}
-                    className={`cursor-pointer flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    className={`cursor-pointer flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       resultTab === "qrcode"
-                        ? "bg-[#3B82F6] text-white shadow-sm"
+                        ? "bg-[#1E2536] text-[#F8FAFC]"
                         : "text-[#94A3B8] hover:text-[#F8FAFC]"
                     }`}
                   >
-                    <QrCode className="w-3.5 h-3.5" />
+                    <QrCode className="w-3 h-3" />
                     <span>QR Code</span>
                   </button>
                 </div>
 
-                {/* Badge de Telemetria Ultrarrápida */}
-                <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-400 font-medium">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Telemetria em Tempo Real Ativa</span>
+                <div className="inline-flex items-center space-x-1.5 text-xs text-[#94A3B8]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span>Telemetria Ativa</span>
                 </div>
               </div>
 
-              {/* Conteúdo da Aba Link Curto */}
+              {/* Aba Link Curto */}
               {resultTab === "link" && (
                 <div className="pt-4 space-y-4 animate-fade-in">
                   <div>
-                    <span className="text-[10px] uppercase tracking-wider font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                      Link Encurtado Pronto
-                    </span>
-                    <h4 className="text-base sm:text-lg font-bold text-[#F8FAFC] mt-2 font-mono break-all">
+                    <h4 className="text-base sm:text-lg font-semibold text-[#F8FAFC] font-mono break-all">
                       {result.shortUrl}
                     </h4>
-                    <p className="text-xs text-[#94A3B8] truncate mt-1">
-                      Destino: <span className="text-[#CBD5E1]">{result.originalUrl}</span>
+                    <p className="text-xs text-[#64748B] truncate mt-1">
+                      Destino: <span className="text-[#94A3B8]">{result.originalUrl}</span>
                     </p>
                   </div>
 
-                  {/* Painel de Telemetria Compacto */}
-                  <div className="p-3.5 rounded-xl bg-[#101828] border border-[#1E2C48] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs">
+                  <div className="p-3 rounded-xl bg-[#0B0E14] border border-white/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs">
                     <div className="flex items-center space-x-2 text-[#94A3B8]">
-                      <BarChart2 className="w-4 h-4 text-[#3B82F6]" />
-                      <span>Monitoramento de cliques, dispositivos e navegadores ativado para <strong>/s/{result.slug}</strong></span>
+                      <BarChart2 className="w-3.5 h-3.5 text-[#3B82F6]" />
+                      <span>Cliques monitorados em tempo real</span>
                     </div>
 
                     <Link
                       href={`/estatisticas/${result.slug}`}
-                      className="inline-flex items-center space-x-1.5 text-xs font-semibold text-[#60A5FA] hover:text-white transition-colors"
+                      className="inline-flex items-center space-x-1 text-xs text-[#94A3B8] hover:text-white transition-colors"
                     >
                       <span>Ver Estatísticas</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
 
-                  {/* Ações Rápidas */}
+                  {/* Ações */}
                   <div className="flex flex-wrap items-center gap-2 pt-2">
                     <CopyButton text={result.shortUrl} label="Copiar Link" />
 
                     <button
                       type="button"
                       onClick={() => setResultTab("qrcode")}
-                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#152238] text-[#F8FAFC] hover:bg-[#1E2C48] border border-[#1E2C48] transition-colors cursor-pointer"
+                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#10141E] text-[#CBD5E1] hover:bg-[#182030] border border-white/10 transition-colors cursor-pointer"
                     >
-                      <QrCode className="w-3.5 h-3.5 text-[#3B82F6]" />
+                      <QrCode className="w-3.5 h-3.5" />
                       <span>Ver QR Code</span>
                     </button>
 
@@ -408,10 +401,10 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                       <button
                         type="button"
                         onClick={() => onSwitchToDownloader(result.originalUrl)}
-                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#3B82F6]/20 text-[#60A5FA] hover:bg-[#3B82F6]/30 border border-[#3B82F6]/40 transition-colors cursor-pointer"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#10141E] text-[#CBD5E1] hover:bg-[#182030] border border-white/10 transition-colors cursor-pointer"
                       >
                         <Download className="w-3.5 h-3.5" />
-                        <span>Baixar Vídeo</span>
+                        <span>Baixar Mídia</span>
                       </button>
                     )}
 
@@ -419,55 +412,54 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                       href={result.shortUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs font-medium text-[#94A3B8] hover:text-[#F8FAFC] transition-colors ml-auto"
+                      className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-lg text-xs text-[#64748B] hover:text-[#CBD5E1] transition-colors ml-auto"
                     >
-                      <span>Testar Redirecionamento</span>
+                      <span>Testar</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>
                 </div>
               )}
 
-              {/* Conteúdo da Aba QR Code */}
+              {/* Aba QR Code */}
               {resultTab === "qrcode" && (
                 <div className="pt-4 flex flex-col items-center text-center space-y-4 animate-fade-in">
                   <div>
-                    <h4 className="text-sm font-semibold text-[#F8FAFC]">QR Code Digital de Alta Resolução</h4>
-                    <p className="text-xs text-[#94A3B8] mt-1 font-mono">/s/{result.slug}</p>
+                    <h4 className="text-xs font-medium text-[#94A3B8]">QR Code para Compartilhamento</h4>
+                    <p className="text-xs text-[#CBD5E1] font-mono mt-0.5">/s/{result.slug}</p>
                   </div>
 
-                  {/* QR Code Grande e Nítido */}
-                  <div className="bg-white p-4 rounded-2xl shadow-nova-glow border-4 border-white inline-block">
+                  <div className="bg-white p-3.5 rounded-2xl shadow-xl inline-block border-2 border-white">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={result.qrCode}
                       alt={`QR Code para ${result.slug}`}
-                      className="w-48 h-48 sm:w-56 sm:h-56 mx-auto object-contain"
+                      className="w-44 h-44 sm:w-48 sm:h-48 mx-auto object-contain"
                     />
                   </div>
 
-                  <p className="text-xs text-[#94A3B8] max-w-sm">
-                    Aponte a câmera do seu smartphone para o QR Code para redirecionamento imediato com telemetria.
+                  <p className="text-xs text-[#64748B] max-w-sm">
+                    Aponte a câmera do seu celular para testar ou baixar o código em PNG.
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-center gap-2 pt-2 w-full">
+                  <div className="flex flex-wrap items-center justify-center gap-2 pt-1 w-full">
                     <button
                       type="button"
                       onClick={() => handleDownloadQR(result.qrCode, result.slug)}
-                      className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold bg-[#3B82F6] hover:bg-[#60A5FA] text-white shadow-nova-glow transition-colors cursor-pointer"
+                      className="inline-flex items-center space-x-1.5 px-4 py-2 rounded-xl text-xs font-medium bg-[#1E2536] hover:bg-[#253046] border border-white/10 text-white transition-colors cursor-pointer"
                     >
-                      <Download className="w-4 h-4" />
-                      <span>Baixar QR Code (PNG)</span>
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Baixar PNG</span>
                     </button>
 
                     <CopyButton text={result.shortUrl} label="Copiar Link" />
 
                     <Link
                       href={`/estatisticas/${result.slug}`}
-                      className="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-[#152238] text-[#60A5FA] hover:bg-[#1E2C48] border border-[#1E2C48] transition-colors"
+                      className="inline-flex items-center space-x-1 px-3 py-2 rounded-xl text-xs font-medium bg-[#0B0E14] text-[#94A3B8] hover:text-white border border-white/5 transition-colors"
                     >
                       <BarChart2 className="w-3.5 h-3.5" />
-                      <span>Ver Estatísticas</span>
+                      <span>Estatísticas</span>
                     </Link>
                   </div>
                 </div>
@@ -478,7 +470,7 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
               <button
                 type="button"
                 onClick={resetForm}
-                className="text-xs text-[#94A3B8] hover:text-[#F8FAFC] underline cursor-pointer"
+                className="text-xs text-[#64748B] hover:text-[#94A3B8] underline cursor-pointer"
               >
                 Encurtar outro link
               </button>

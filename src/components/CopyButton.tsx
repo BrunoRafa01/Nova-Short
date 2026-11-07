@@ -18,7 +18,6 @@ export function CopyButton({ text, className = "", label }: CopyButtonProps) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // Fallback manual
       const textarea = document.createElement("textarea");
       textarea.value = text;
       document.body.appendChild(textarea);
@@ -34,10 +33,10 @@ export function CopyButton({ text, className = "", label }: CopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
-      className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 ${
+      className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 cursor-pointer ${
         copied
-          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-          : "bg-[#152238] text-[#F8FAFC] hover:bg-[#3B82F6] hover:text-white border border-[#1E2C48]"
+          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+          : "bg-[#0E121B] text-[#F8FAFC] hover:bg-[#161D2B] border border-white/10 hover:border-white/20"
       } ${className}`}
       title="Copiar para a área de transferência"
     >

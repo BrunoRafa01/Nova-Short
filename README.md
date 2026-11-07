@@ -1,9 +1,8 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/banner.png" alt="NOVA SHORT Banner" width="100%" />
-</p>
+# NOVA SHORT
 
 <p align="center">
-  <strong>Plataforma SaaS Profissional de Encurtamento Inteligente de Links &amp; Downloader de Mídia de Alta Performance</strong>
+  <strong>Plataforma de Alta Performance para Encurtamento Inteligente de Links &amp; Downloader de Mídia</strong><br />
+  <em>Ecossistema NOVA RUNTIME • PWA Standalone • Alta Concorrência (1.000 usuários simultâneos) • Blindagem SSRF</em>
 </p>
 
 <p align="center">
@@ -14,8 +13,8 @@
   <img src="https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
   <img src="https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" />
   <img src="https://img.shields.io/badge/BullMQ-Asynchronous-E34F26?style=for-the-badge&logo=rabbitmq&logoColor=white" alt="BullMQ" />
-  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
-  <img src="https://img.shields.io/badge/Fedora_Linux-Tested-51A2DA?style=for-the-badge&logo=fedora&logoColor=white" alt="Fedora" />
+  <img src="https://img.shields.io/badge/Concurrency-1000_Users-blue?style=for-the-badge&logo=speedtest&logoColor=white" alt="1000 Users" />
+  <img src="https://img.shields.io/badge/PWA-Mobile_Ready-purple?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA Ready" />
   <img src="https://img.shields.io/badge/OWASP-Hardened-10B981?style=for-the-badge&logo=shield&logoColor=white" alt="Security" />
 </p>
 
@@ -315,10 +314,11 @@ Copie o arquivo `.env.example` para `.env` e configure os parâmetros:
 
 ---
 
-## 🧪 Suíte de Testes Automatizados
+## 🧪 Suíte de Testes Automatizados & Teste de Alta Concorrência
 
-O projeto utiliza **Vitest** com testes unitários e de integração de alta velocidade:
+O projeto utiliza **Vitest** com testes unitários, de integração e uma suíte de alta concorrência simulando **1.000 usuários simultâneos**:
 
+### 1. Testes Unitários e de Integração
 ```bash
 npm test
 ```
@@ -330,11 +330,21 @@ Saída de execução verificada:
  ✓ tests/ssrf.test.ts (7 tests)
  ✓ tests/rate-limiter.test.ts (2 tests)
  ✓ tests/auth-security.test.ts (7 tests)
+ ✓ tests/stress-1000.test.ts (4 tests)
 
-Test Files  5 passed (5)
-Tests       25 passed (25)
-Duration    1.36s
+Test Files  6 passed (6)
+Tests       29 passed (29)
+Duration    1.77s
 ```
+
+### 2. Teste de Carga de Alta Concorrência (1.000 Usuários Simultâneos)
+Simula 1.000 requisições simultâneas em paralelo testando blindagem SSRF, motor de slugs, rate limiting e criptografia JWT:
+```bash
+npm run test:stress
+```
+
+Consulte o relatório detalhado de auditoria e métricas empíricas em:  
+📄 **[Relatório de Auditoria de Segurança, RF/RNF e Concorrência](docs/SECURITY-AUDIT-AND-REQUIREMENTS.md)**
 
 ---
 

@@ -7,6 +7,22 @@ interface RateLimitRecord {
 }
 
 const memoryStore = new Map<string, RateLimitRecord>();
+const MAX_MEMORY_STORE_SIZE = 10000;
+
+function cleanupMemoryStore(now: number) {
+  for (const [key, record] of memoryStore.entries()) {
+    if (now > record.resetAt) {
+      memoryStore.delete(key);
+    }
+  }
+  // Se ainda estiver acima do limite máximo, remove as entradas mais antigas (LRU simples)
+  if (memoryStore.size > MAX_MEMORY_STORE_SIZE) {
+    const keysToDelete = Array.from(memoryStore.keys()).slice(0, Math.floor(MAX_MEMORY_STORE_SIZE * 0.2));
+    for (const k of keysToDelete) {
+      memoryStore.delete(k);
+    }
+  }
+}
 
 export interface RateLimitResult {
   success: boolean;
@@ -22,6 +38,11 @@ export async function checkRateLimit(
 ): Promise<RateLimitResult> {
   const now = Date.now();
   const key = `ratelimit:${identifier}`;
+
+  // Purga proativa se o mapa crescer em rajadas de tráfego
+  if (memoryStore.size > MAX_MEMORY_STORE_SIZE) {
+    cleanupMemoryStore(now);
+  }
 
   // Tentar usar Redis primeiro
   if (redis && redis.status === "ready") {

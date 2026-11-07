@@ -171,7 +171,9 @@ export async function validateUrlAgainstSSRF(inputUrl: string): Promise<SSRFVali
     return { valid: false, error: "URLs contendo credenciais de autenticação não são permitidas." };
   }
 
-  const hostname = parsed.hostname.toLowerCase();
+  const rawHostname = parsed.hostname.toLowerCase();
+  // Remove colchetes de endereços IPv6 (ex: "[::1]" -> "::1")
+  const hostname = rawHostname.replace(/^\[|\]$/g, "");
 
   // Bloqueio de domínios óbvios locais
   if (
