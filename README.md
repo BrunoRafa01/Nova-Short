@@ -102,6 +102,17 @@ Construído sob uma arquitetura resiliente no **Next.js 15 App Router** com tipa
 
 ---
 
+### 6. Experiência Mobile & Suporte PWA (Instalação no Celular)
+> Design responsivo otimizado para smartphones com suporte nativo a Progressive Web App (PWA), permitindo adicionar o ícone à tela de início no iOS Safari e Android Chrome para uso imediato como aplicativo.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/mobile-hero.png" alt="Visualização Mobile no Smartphone" width="42%" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://raw.githubusercontent.com/BrunoRafa01/Nova-Short/main/docs/images/mobile-pwa.png" alt="Modal de Instalação PWA" width="42%" />
+</p>
+
+---
+
 ## ⚡ Funcionalidades Principais
 
 | Módulo | Recursos Principais |
