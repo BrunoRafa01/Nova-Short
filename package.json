@@ -13,7 +13,11 @@
     "db:seed": "node scripts/seed.mjs",
     "env:check": "node scripts/check-environment.mjs",
     "test": "vitest run",
-    "test:stress": "vitest run tests/stress-1000.test.ts"
+    "test:stress": "vitest run tests/stress-1000.test.ts",
+    "audit:compliance": "node scripts/compliance-audit.mjs",
+    "audit:deps": "npm audit",
+    "backup": "node scripts/backup-db.mjs",
+    "retention:purge": "node scripts/retention-purge.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.3.0",

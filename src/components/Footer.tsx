@@ -60,19 +60,43 @@ export function Footer() {
 
           <div>
             <h4 className="text-xs font-semibold text-[#F8FAFC] uppercase tracking-wider mb-3">
-              Diretrizes & Compliance
+              Compliance & Legal
             </h4>
-            <p className="text-[11px] leading-relaxed text-[#64748B]">
-              Processamento restrito a conteúdos próprios, de domínio público ou explicitamente
-              autorizados. Respeito rigoroso aos termos de serviço e à integridade de direitos de terceiros.
-            </p>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="/termos" className="hover:text-emerald-400 transition-colors">
+                  Termos de Uso & CDC
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacidade" className="hover:text-emerald-400 transition-colors">
+                  Privacidade & LGPD
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookies" className="hover:text-emerald-400 transition-colors">
+                  Política de Cookies
+                </Link>
+              </li>
+              <li>
+                <Link href="/transparencia" className="hover:text-emerald-400 transition-colors">
+                  Transparência de Preços
+                </Link>
+              </li>
+              <li>
+                <Link href="/compliance" className="hover:text-emerald-400 transition-colors flex items-center gap-1">
+                  <span>Conformidade & DSR</span>
+                  <span className="px-1.5 py-0.2 bg-emerald-500/20 text-emerald-400 text-[9px] rounded font-mono">40/40</span>
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
         <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#64748B]">
-          <p>© {new Date().getFullYear()} NOVA RUNTIME. Engenharia de Sistemas.</p>
+          <p>© {new Date().getFullYear()} NOVA RUNTIME TECNOLOGIA LTDA &bull; CNPJ 48.912.834/0001-90</p>
           <div className="flex items-center space-x-4 mt-3 sm:mt-0 font-mono text-[10px]">
-            <span>Linux • macOS • Windows • iOS • Android</span>
+            <span>Av. Paulista, 1106 &bull; São Paulo/SP</span>
           </div>
         </div>
       </div>

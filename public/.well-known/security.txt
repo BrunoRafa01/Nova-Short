@@ -1,0 +1,9 @@
+# RFC 9116 - Vulnerability Disclosure Policy
+Contact: mailto:security@novashort.com.br
+Contact: https://novashort.com.br/compliance
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: pt-BR, en
+Canonical: https://novashort.com.br/.well-known/security.txt
+Policy: https://novashort.com.br/privacidade
+Hiring: https://novaruntime.com.br
+Acknowledgments: https://novashort.com.br/compliance

@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 export const viewport: Viewport = {
   themeColor: "#07080B",
@@ -56,6 +57,7 @@ export default function RootLayout({
         </Suspense>
         <main className="flex-1 flex flex-col">{children}</main>
         <Footer />
+        <CookieConsentBanner />
       </body>
     </html>
   );
