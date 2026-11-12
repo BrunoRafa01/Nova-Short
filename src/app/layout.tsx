@@ -51,8 +51,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark">
-      <body className="min-h-screen flex flex-col bg-[#07080B] text-[#F8FAFC] antialiased selection:bg-[#3B82F6]/30 selection:text-white">
-        <Suspense fallback={<div className="h-16 w-full bg-[#07080B]/90 border-b border-white/5" />}>
+      <body className="min-h-screen flex flex-col bg-[#09090B] text-zinc-50 antialiased selection:bg-zinc-800 selection:text-zinc-50">
+        <Suspense fallback={<div className="h-14 w-full bg-[#09090B] border-b border-zinc-800" />}>
           <Navbar />
         </Suspense>
         <main className="flex-1 flex flex-col">{children}</main>

@@ -150,17 +150,17 @@ export function DownloaderForm() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-[#0B0E14] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl transition-all">
+    <div className="w-full">
+      <div className="bg-[#111113] border border-zinc-800 rounded-lg p-5 sm:p-6">
         {/* Formulário de Input */}
         <form onSubmit={handleAnalyze} className="space-y-4">
           <div>
-            <label htmlFor="media-url" className="block text-xs font-medium uppercase tracking-wider text-[#94A3B8] mb-2">
+            <label htmlFor="media-url" className="block text-xs font-medium text-zinc-400 mb-2">
               Link de Vídeo ou Áudio (YouTube, TikTok, Instagram)
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#64748B]">
-                <Search className="w-4 h-4 text-[#94A3B8]" />
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
+                <Search className="w-4 h-4" />
               </div>
               <input
                 id="media-url"
@@ -169,13 +169,13 @@ export function DownloaderForm() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://youtube.com/watch?v=... ou tiktok.com, instagram.com"
-                className="w-full pl-10 pr-4 py-3 bg-[#07080B] border border-white/10 rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 text-xs sm:text-sm transition-all"
+                className="w-full h-10 pl-10 pr-4 bg-zinc-950 border border-zinc-800 rounded-md text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 text-sm transition-colors"
               />
             </div>
           </div>
 
           {error && (
-            <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/20 text-red-400 text-xs flex items-center space-x-2">
+            <div className="p-3.5 rounded-md bg-red-950/30 border border-red-900/50 text-red-400 text-xs flex items-center space-x-2">
               <AlertCircle className="w-4 h-4 shrink-0" />
               <span>{error}</span>
             </div>
@@ -184,11 +184,11 @@ export function DownloaderForm() {
           <button
             type="submit"
             disabled={analyzing || !url.trim()}
-            className="w-full py-3 px-6 rounded-xl bg-[#1E293B] hover:bg-[#334155] border border-white/10 text-white font-medium text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full h-10 px-5 rounded-md bg-zinc-50 hover:bg-zinc-200 text-zinc-950 font-medium text-sm flex items-center justify-center space-x-2 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {analyzing ? (
               <span className="flex items-center space-x-2">
-                <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-3.5 h-3.5 border-2 border-zinc-400 border-t-zinc-950 rounded-full animate-spin" />
                 <span>Inspecionando formatos...</span>
               </span>
             ) : (

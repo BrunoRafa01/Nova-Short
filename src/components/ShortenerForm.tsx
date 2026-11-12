@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Sparkles, QrCode, ExternalLink, ArrowRight, Clock, Key, BarChart2, Video, Download } from "lucide-react";
+import { Link2, QrCode, ExternalLink, ArrowRight, Clock, Key, BarChart2, Video, Download } from "lucide-react";
 import { CopyButton } from "./CopyButton";
 import { QRCodeModal } from "./QRCodeModal";
 import Link from "next/link";
@@ -111,16 +111,16 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="bg-[#0B0E14] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl transition-all">
+    <div className="w-full">
+      <div className="bg-[#111113] border border-zinc-800 rounded-lg p-5 sm:p-6">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="url-input" className="block text-xs font-medium uppercase tracking-wider text-[#94A3B8] mb-2">
+            <label htmlFor="url-input" className="block text-xs font-medium text-zinc-400 mb-2">
               URL de Destino
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#64748B]">
-                <Link2 className="w-4 h-4 text-[#94A3B8]" />
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-500">
+                <Link2 className="w-4 h-4" />
               </div>
               <input
                 id="url-input"
@@ -129,15 +129,15 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://exemplo.com ou cole links de vídeos..."
-                className="w-full pl-10 pr-4 py-3 bg-[#07080B] border border-white/10 rounded-xl text-[#F8FAFC] placeholder-[#64748B] focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 text-xs sm:text-sm transition-all"
+                className="w-full h-10 pl-10 pr-4 bg-zinc-950 border border-zinc-800 rounded-md text-zinc-50 placeholder-zinc-500 focus:outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 text-sm transition-colors"
               />
             </div>
 
-            {/* Notificação Inteligente de Mídia */}
+            {/* Notificação de Mídia */}
             {videoInfo.isVideo && (
-              <div className="mt-3 p-3 rounded-xl bg-[#10141E] border border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs animate-fade-in">
-                <div className="flex items-center space-x-2 text-[#CBD5E1]">
-                  <Video className="w-3.5 h-3.5 text-[#3B82F6] flex-shrink-0" />
+              <div className="mt-3 p-3 rounded-md bg-zinc-900 border border-zinc-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
+                <div className="flex items-center space-x-2 text-zinc-300">
+                  <Video className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
                   <span>
                     Vídeo do <strong>{videoInfo.platformName}</strong> detectado.
                   </span>
@@ -146,7 +146,7 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                   <button
                     type="button"
                     onClick={() => onSwitchToDownloader(url.trim())}
-                    className="inline-flex items-center justify-center space-x-1.5 px-3 py-1.5 rounded-lg bg-[#1E2536] hover:bg-[#253046] border border-white/10 text-[#F8FAFC] font-medium text-xs transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto"
+                    className="inline-flex items-center justify-center space-x-1.5 px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-100 font-medium text-xs transition-colors cursor-pointer whitespace-nowrap self-start sm:self-auto"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Usar Downloader</span>
@@ -158,27 +158,27 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
 
           {/* Seleção de Formato Preferencial: Link ou QR Code */}
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-[#94A3B8] mb-2">
+            <label className="block text-xs font-medium text-zinc-400 mb-2">
               Formato de Saída
             </label>
-            <div className="grid grid-cols-2 gap-3" role="radiogroup" aria-label="Formato de saída">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Formato de saída">
               <button
                 type="button"
                 role="radio"
                 aria-checked={outputPreference === "link"}
                 onClick={() => setOutputPreference("link")}
-                className={`cursor-pointer p-3 rounded-xl border flex items-center space-x-3 transition-all ${
+                className={`cursor-pointer p-3 rounded-md border flex items-center space-x-3 transition-colors ${
                   outputPreference === "link"
-                    ? "bg-[#141A26] border-white/20 text-[#F8FAFC] shadow-sm"
-                    : "bg-[#07080B] border-white/5 text-[#94A3B8] hover:text-[#F8FAFC] hover:border-white/15"
+                    ? "bg-zinc-900 border-zinc-600 text-zinc-50"
+                    : "bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:border-zinc-700"
                 }`}
               >
-                <div className={`p-2 rounded-lg ${outputPreference === "link" ? "bg-[#1E2536] text-white" : "bg-[#0E121B] text-[#64748B]"}`}>
+                <div className={`p-2 rounded-md ${outputPreference === "link" ? "bg-zinc-800 text-zinc-50" : "bg-zinc-900 text-zinc-500"}`}>
                   <Link2 className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-left">
-                  <div className="text-xs font-medium text-[#F8FAFC]">Link Curto</div>
-                  <div className="text-[10px] text-[#64748B]">Redirecionamento & Métricas</div>
+                  <div className="text-xs font-medium text-zinc-100">Link Curto</div>
+                  <div className="text-[11px] text-zinc-500">Redirecionamento & Métricas</div>
                 </div>
               </button>
 
@@ -187,17 +187,17 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
                 role="radio"
                 aria-checked={outputPreference === "qrcode"}
                 onClick={() => setOutputPreference("qrcode")}
-                className={`cursor-pointer p-3 rounded-xl border flex items-center space-x-3 transition-all ${
+                className={`cursor-pointer p-3 rounded-md border flex items-center space-x-3 transition-colors ${
                   outputPreference === "qrcode"
-                    ? "bg-[#141A26] border-white/20 text-[#F8FAFC] shadow-sm"
-                    : "bg-[#07080B] border-white/5 text-[#94A3B8] hover:text-[#F8FAFC] hover:border-white/15"
+                    ? "bg-zinc-900 border-zinc-600 text-zinc-50"
+                    : "bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:border-zinc-700"
                 }`}
               >
-                <div className={`p-2 rounded-lg ${outputPreference === "qrcode" ? "bg-[#1E2536] text-white" : "bg-[#0E121B] text-[#64748B]"}`}>
+                <div className={`p-2 rounded-md ${outputPreference === "qrcode" ? "bg-zinc-800 text-zinc-50" : "bg-zinc-900 text-zinc-500"}`}>
                   <QrCode className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-left">
-                  <div className="text-xs font-medium text-[#F8FAFC]">QR Code Digital</div>
+                  <div className="text-xs font-medium text-zinc-100">QR Code Digital</div>
                   <div className="text-[10px] text-[#64748B]">Escanear & Salvar</div>
                 </div>
               </button>
@@ -294,16 +294,15 @@ export function ShortenerForm({ onSwitchToDownloader }: ShortenerFormProps = {})
           <button
             type="submit"
             disabled={loading || !url.trim()}
-            className="w-full py-3 px-6 rounded-xl bg-[#1E293B] hover:bg-[#334155] border border-white/10 text-white font-medium text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-sm transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full h-10 px-5 rounded-md bg-zinc-50 hover:bg-zinc-200 text-zinc-950 font-medium text-sm flex items-center justify-center space-x-2 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <span className="flex items-center space-x-2">
-                <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-3.5 h-3.5 border-2 border-zinc-400 border-t-zinc-950 rounded-full animate-spin" />
                 <span>Processando link...</span>
               </span>
             ) : (
               <>
-                <Sparkles className="w-3.5 h-3.5 text-slate-300" />
                 <span>
                   {outputPreference === "qrcode" ? "Gerar QR Code & Encurtar" : "Encurtar Link"}
                 </span>

@@ -51,21 +51,16 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#07080B]/80 border-b border-white/5 transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full bg-[#09090B] border-b border-zinc-800">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand / Logo */}
-        <Link href="/" className="flex items-center space-x-3 group">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-b from-[#1E293B] to-[#0F172A] border border-white/10 flex items-center justify-center text-[#F8FAFC] group-hover:border-white/20 transition-all duration-200 shadow-sm">
-            <span className="text-xs font-black tracking-tighter">N</span>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-7 h-7 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-50 group-hover:border-zinc-700 transition-colors">
+            <span className="text-xs font-bold tracking-tight font-mono">N</span>
           </div>
-          <div className="flex flex-col">
-            <span className="font-semibold text-sm tracking-wider text-[#F8FAFC]">
-              NOVA <span className="text-[#94A3B8] font-normal">SHORT</span>
-            </span>
-            <span className="text-[9px] tracking-widest text-[#64748B] -mt-0.5 font-mono uppercase">
-              NOVA RUNTIME
-            </span>
-          </div>
+          <span className="font-semibold text-sm tracking-tight text-zinc-50">
+            Nova Short
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -77,10 +72,10 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-150 ${
+                className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                   active
-                    ? "bg-[#111622] text-[#F8FAFC] border border-white/10 shadow-sm"
-                    : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/5"
+                    ? "bg-zinc-900 text-zinc-50 border border-zinc-800"
+                    : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60 border border-transparent"
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
