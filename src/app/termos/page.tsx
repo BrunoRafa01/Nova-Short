@@ -34,7 +34,7 @@ export default function TermosPage() {
               <p>
                 O <strong>Nova Short</strong> é desenvolvido e fornecido pela <strong>Nova Runtime Tecnologia Ltda</strong>,
                 pessoa jurídica de direito privado inscrita no CNPJ sob o nº <strong>48.912.834/0001-90</strong>, com sede
-                na Av. Paulista, 1106, São Paulo/SP, CEP 01310-100.
+                na Av. Modelo, 100, Cidade Fictícia/SP, CEP 00000-000.
                 Atendimento ao usuário: <a href="mailto:contato@novashort.com.br" className="text-emerald-400 underline font-semibold">contato@novashort.com.br</a>.
               </p>
             </section>

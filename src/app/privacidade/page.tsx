@@ -33,7 +33,7 @@ export default function PrivacidadePage() {
               <h2 className="text-xl font-bold text-white mb-3">1. Controlador dos Dados e Contato do DPO</h2>
               <p>
                 O <strong>Nova Short</strong> é uma plataforma operada pela <strong>Nova Runtime Tecnologia Ltda</strong>,
-                inscrita no CNPJ sob o nº <strong>48.912.834/0001-90</strong>, com sede na Av. Paulista, 1106, São Paulo/SP.
+                inscrita no CNPJ sob o nº <strong>48.912.834/0001-90</strong>, com sede na Av. Modelo, 100, Cidade Fictícia/SP.
                 Para qualquer dúvida sobre o tratamento de seus dados ou exercício de direitos, entre em contato com nosso
                 Encarregado de Proteção de Dados (DPO):{" "}
                 <a href="mailto:dpo@novashort.com.br" className="text-emerald-400 underline font-semibold">

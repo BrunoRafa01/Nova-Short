@@ -96,7 +96,7 @@ export function Footer() {
         <div className="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#64748B]">
           <p>© {new Date().getFullYear()} NOVA RUNTIME TECNOLOGIA LTDA &bull; CNPJ 48.912.834/0001-90</p>
           <div className="flex items-center space-x-4 mt-3 sm:mt-0 font-mono text-[10px]">
-            <span>Av. Paulista, 1106 &bull; São Paulo/SP</span>
+            <span>Av. Modelo, 100 &bull; Cidade Fictícia/SP</span>
           </div>
         </div>
       </div>

@@ -88,7 +88,7 @@ export default function TransparenciaPage() {
             <div className="text-xl mb-2">🏢</div>
             <strong className="text-white block mb-1">Fornecedor Identificado</strong>
             <p className="text-slate-400 text-xs leading-relaxed">
-              Nova Runtime Tecnologia Ltda &bull; CNPJ: 48.912.834/0001-90 &bull; Av. Paulista, 1106, São Paulo/SP.
+              Nova Runtime Tecnologia Ltda &bull; CNPJ: 48.912.834/0001-90 &bull; Av. Modelo, 100, Cidade Fictícia/SP.
             </p>
           </div>
         </div>
