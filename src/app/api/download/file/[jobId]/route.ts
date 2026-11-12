@@ -32,9 +32,10 @@ export async function GET(
       return new NextResponse("O arquivo expirou e não está mais disponível no servidor.", { status: 410 });
     }
 
-    // 3. Controle de acesso e autorização por Token ou Sessão Administrativa
+    // 3. Controle de acesso e autorização por Token ou Sessão Administrativa (fail-closed)
     const requestToken = req.nextUrl.searchParams.get("token") || req.headers.get("x-download-token");
-    if (job?.downloadToken && job.downloadToken !== requestToken) {
+    const hasValidToken = Boolean(job?.downloadToken && requestToken && job.downloadToken === requestToken);
+    if (!hasValidToken) {
       const adminSession = await getAdminSession().catch(() => null);
       if (!adminSession) {
         return new NextResponse("Acesso não autorizado para baixar este arquivo de mídia.", { status: 403 });

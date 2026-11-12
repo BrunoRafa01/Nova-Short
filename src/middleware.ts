@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
-function getSecretKey(): Uint8Array {
-  const secret = process.env.JWT_SECRET || "nova_short_super_secret_jwt_key_2026_runtime_987654321";
+function getSecretKey(): Uint8Array | null {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret.length < 32) return null;
   return new TextEncoder().encode(secret);
 }
 
@@ -19,10 +20,11 @@ export async function middleware(req: NextRequest) {
     const adminToken = req.cookies.get("nova_admin_token")?.value;
 
     let isAuthenticated = false;
-    if (adminToken) {
+    const secretKey = getSecretKey();
+    if (adminToken && secretKey) {
       try {
-        const { payload } = await jwtVerify(adminToken, getSecretKey());
-        if (payload && payload.sub) {
+        const { payload } = await jwtVerify(adminToken, secretKey);
+        if (payload && payload.sub && payload.role === "admin") {
           isAuthenticated = true;
         }
       } catch {

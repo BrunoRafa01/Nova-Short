@@ -34,11 +34,24 @@ export function isPrivateIPv6(ip: string): boolean {
   if (!net.isIPv6(ip)) return false;
   const normalized = ip.toLowerCase();
 
-  // IPv4-mapped IPv6 (ex: ::ffff:127.0.0.1 ou ::ffff:169.254.169.254)
-  if (normalized.startsWith("::ffff:")) {
-    const ipv4Part = normalized.slice(7);
+  // IPv4-mapped IPv6 (ex: ::ffff:127.0.0.1, ::ffff:7f00:1 ou 0:0:0:0:0:ffff:7f00:1)
+  const v4MappedPrefix = normalized.startsWith("::ffff:")
+    ? "::ffff:"
+    : normalized.startsWith("0:0:0:0:0:ffff:")
+      ? "0:0:0:0:0:ffff:"
+      : null;
+
+  if (v4MappedPrefix) {
+    const ipv4Part = normalized.slice(v4MappedPrefix.length);
     if (net.isIPv4(ipv4Part)) {
       return isPrivateIPv4(ipv4Part);
+    }
+    const hexGroups = ipv4Part.split(":");
+    if (hexGroups.length === 2 && hexGroups.every((g) => /^[0-9a-f]{1,4}$/.test(g))) {
+      const hi = parseInt(hexGroups[0], 16);
+      const lo = parseInt(hexGroups[1], 16);
+      const dotted = `${(hi >> 8) & 0xff}.${hi & 0xff}.${(lo >> 8) & 0xff}.${lo & 0xff}`;
+      return isPrivateIPv4(dotted);
     }
   }
 

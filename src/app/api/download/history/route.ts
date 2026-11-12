@@ -9,12 +9,7 @@ export async function GET(req: NextRequest) {
     const ipHash = crypto.createHash("sha256").update(ip + "nova_salt").digest("hex").slice(0, 16);
 
     const downloads = await prisma.downloadJob.findMany({
-      where: {
-        OR: [
-          { ipHash },
-          { ipHash: null },
-        ],
-      },
+      where: { ipHash },
       orderBy: { createdAt: "desc" },
       take: 20,
     }).catch(() => []);

@@ -38,15 +38,17 @@ export function getBaseAppUrl(requestHost?: string | null): string {
     return envUrl.replace(/\/$/, "");
   }
 
-  // 2. Se a requisição veio diretamente de um IP de rede ou host específico (ex: celular acessou pelo IP)
+  // 2. Em desenvolvimento, permite host local validado (ex: celular na mesma rede)
   if (
+    process.env.NODE_ENV !== "production" &&
     requestHost &&
     !requestHost.includes("localhost") &&
     !requestHost.includes("127.0.0.1")
   ) {
     const cleanHost = requestHost.split(",")[0].trim();
-    const protocol = cleanHost.includes("https") ? "https" : "http";
-    return `${protocol}://${cleanHost}`;
+    if (/^[a-z0-9.-]+(:\d{1,5})?$/i.test(cleanHost)) {
+      return `http://${cleanHost}`;
+    }
   }
 
   // 3. Em desenvolvimento: se a URL do .env contiver IP local, use-a

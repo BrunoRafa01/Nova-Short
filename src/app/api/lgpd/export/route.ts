@@ -1,13 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getAdminSession } from "@/lib/security/auth";
 import { anonymizeIp, logSecurityEvent } from "@/lib/security/compliance";
+import { getClientIp } from "@/lib/security/rate-limiter";
 
 export async function GET(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for") || "127.0.0.1";
+  const ip = getClientIp(req.headers);
   const userAgent = req.headers.get("user-agent");
 
+  const admin = await getAdminSession().catch(() => null);
+  if (!admin) {
+    return NextResponse.json(
+      { error: "Autenticação administrativa necessária para exportar registros completos." },
+      { status: 401 }
+    );
+  }
+
   try {
-    // Busca os links públicos mais recentes associados à sessão ou gerais para portabilidade
+    // Busca os links mais recentes para portabilidade administrativa
     const links = await prisma.shortLink.findMany({
       take: 50,
       orderBy: { createdAt: "desc" },
@@ -33,9 +43,9 @@ export async function GET(req: NextRequest) {
       politica_retencao: "Os dados de redirecionamento são armazenados exclusivamente pelo tempo necessário para prestação do serviço.",
       base_legal: "Art. 7º, V da Lei 13.709/2018 (Execução de contrato/serviço)",
     });
-  } catch (err: any) {
+  } catch {
     return NextResponse.json(
-      { error: "Erro ao gerar arquivo de exportação de dados.", details: err.message },
+      { error: "Erro ao gerar arquivo de exportação de dados." },
       { status: 500 }
     );
   }

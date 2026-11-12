@@ -19,15 +19,22 @@ describe("SSRF Security Validator", () => {
     expect(isPrivateIPv4("142.250.190.46")).toBe(false);
   });
 
-  it("deve detectar e bloquear endereços IPv6 privados, loopback e IPv4-mapped", () => {
+  it("deve detectar e bloquear endereços IPv6 privados, loopback e IPv4-mapped", async () => {
     expect(isPrivateIPv6("::1")).toBe(true);
     expect(isPrivateIPv6("fe80::1")).toBe(true);
     expect(isPrivateIPv6("fc00::1")).toBe(true);
     expect(isPrivateIPv6("::ffff:127.0.0.1")).toBe(true);
+    expect(isPrivateIPv6("::ffff:7f00:1")).toBe(true);
     expect(isPrivateIPv6("::ffff:169.254.169.254")).toBe(true);
+    expect(isPrivateIPv6("::ffff:a9fe:a9fe")).toBe(true);
     expect(isPrivateIPv6("::ffff:10.0.0.1")).toBe(true);
     expect(isPrivateIPv6("2001:4860:4860::8888")).toBe(false);
     expect(isPrivateIPv6("::ffff:8.8.8.8")).toBe(false);
+
+    const mappedLoopback = await validateUrlAgainstSSRF("http://[::ffff:127.0.0.1]/");
+    expect(mappedLoopback.valid).toBe(false);
+    const mappedMetadata = await validateUrlAgainstSSRF("http://[::ffff:169.254.169.254]/latest/meta-data/");
+    expect(mappedMetadata.valid).toBe(false);
   });
 
   it("deve detectar esquemas perigosos e domínios maliciosos", async () => {

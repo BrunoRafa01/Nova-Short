@@ -19,7 +19,7 @@ export default async function HistoricoPage() {
       id: l.id,
       slug: l.slug,
       shortUrl: `${appUrl}/s/${l.slug}`,
-      originalUrl: l.originalUrl,
+      originalUrl: l.password ? "[Protegido por senha]" : l.originalUrl,
       title: l.title || undefined,
       clicksCount: l.clicksCount,
       isActive: l.isActive,

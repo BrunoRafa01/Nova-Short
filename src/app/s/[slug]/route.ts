@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { getClientIp } from "@/lib/security/rate-limiter";
+import { checkRateLimit, getClientIp } from "@/lib/security/rate-limiter";
 import { verifyPassword } from "@/lib/security/auth";
 
 function parseDevice(userAgent: string): string {
@@ -143,6 +143,18 @@ export async function GET(
     if (link.password) {
       const queryPassword = req.nextUrl.searchParams.get("pwd");
       if (queryPassword) {
+        const ip = getClientIp(req.headers);
+        const limit = await checkRateLimit(`link_pwd:${slug}:${ip}`, 10, 5 * 60 * 1000);
+        if (!limit.success) {
+          return renderHtmlStatusPage({
+            title: "Muitas tentativas",
+            message: "Limite de tentativas de senha atingido. Aguarde alguns minutos.",
+            badgeText: "Erro 429 • Bloqueado",
+            badgeBg: "rgba(239, 68, 68, 0.15)",
+            badgeColor: "#FCA5A5",
+            statusCode: 429,
+          });
+        }
         const isMatch = await verifyPassword(queryPassword, link.password);
         if (!isMatch) {
           return renderHtmlStatusPage({
@@ -244,6 +256,19 @@ export async function POST(
 
     if (!link.password) {
       return NextResponse.redirect(link.originalUrl, 307);
+    }
+
+    const ip = getClientIp(req.headers);
+    const pwdLimit = await checkRateLimit(`link_pwd:${slug}:${ip}`, 10, 5 * 60 * 1000);
+    if (!pwdLimit.success) {
+      return renderHtmlStatusPage({
+        title: "Muitas tentativas",
+        message: "Limite de tentativas de senha atingido. Aguarde alguns minutos.",
+        badgeText: "Erro 429 • Bloqueado",
+        badgeBg: "rgba(239, 68, 68, 0.15)",
+        badgeColor: "#FCA5A5",
+        statusCode: 429,
+      });
     }
 
     const isMatch = await verifyPassword(password, link.password);

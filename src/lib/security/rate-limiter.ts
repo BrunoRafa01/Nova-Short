@@ -91,25 +91,26 @@ export async function checkRateLimit(
 }
 
 export function getClientIp(headers: Headers): string {
-  // 1. Cloudflare header prioritário se presente
-  const cfIp = headers.get("cf-connecting-ip")?.trim();
-  if (cfIp && net.isIP(cfIp)) {
-    return cfIp;
-  }
+  const trustProxy = process.env.TRUST_PROXY !== "false";
+  if (trustProxy) {
+    // 1. Cloudflare header prioritário quando atrás de proxy confiável
+    const cfIp = headers.get("cf-connecting-ip")?.trim();
+    if (cfIp && net.isIP(cfIp)) {
+      return cfIp;
+    }
 
-  // 2. X-Real-IP
-  const realIp = headers.get("x-real-ip")?.trim();
-  if (realIp && net.isIP(realIp)) {
-    return realIp;
-  }
+    // 2. X-Real-IP
+    const realIp = headers.get("x-real-ip")?.trim();
+    if (realIp && net.isIP(realIp)) {
+      return realIp;
+    }
 
-  // 3. X-Forwarded-For (validando cada parte)
-  const forwarded = headers.get("x-forwarded-for");
-  if (forwarded) {
-    const parts = forwarded.split(",").map((p) => p.trim());
-    for (const part of parts) {
-      if (net.isIP(part)) {
-        return part;
+    // 3. X-Forwarded-For: usa o IP mais à direita adicionado pelo proxy confiável
+    const forwarded = headers.get("x-forwarded-for");
+    if (forwarded) {
+      const parts = forwarded.split(",").map((p) => p.trim()).filter((p) => net.isIP(p));
+      if (parts.length > 0) {
+        return parts[parts.length - 1];
       }
     }
   }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getAdminSession } from "@/lib/security/auth";
 
 export async function GET(
   req: NextRequest,
@@ -50,12 +51,15 @@ export async function GET(
     const browsers = Object.entries(browserMap).map(([name, count]) => ({ name, count }));
     const referers = Object.entries(refererMap).map(([name, count]) => ({ name, count }));
 
+    const admin = await getAdminSession().catch(() => null);
+
     return NextResponse.json({
       link: {
         id: link.id,
         slug: link.slug,
         shortUrl: `${appUrl}/s/${link.slug}`,
-        originalUrl: link.originalUrl,
+        originalUrl: link.password && !admin ? "[Protegido por senha]" : link.originalUrl,
+        hasPassword: Boolean(link.password),
         title: link.title,
         clicksCount: link.clicksCount,
         isActive: link.isActive,

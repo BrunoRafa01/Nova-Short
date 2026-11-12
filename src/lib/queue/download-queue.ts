@@ -170,29 +170,7 @@ export async function getJobStatus(jobId: string) {
     };
   }
 
-  // 2. Verificar diretamente no disco se o arquivo já foi baixado
-  const storageDir = path.resolve(process.env.STORAGE_DIR || "./storage/downloads");
-  const possiblePaths = [
-    path.join(storageDir, `nova_${jobId}.mp4`),
-    path.join(storageDir, `nova_${jobId}.mp3`),
-    path.join(storageDir, `nova_${jobId}.m4a`),
-    path.join(storageDir, `nova_${jobId}.webm`),
-  ];
-
-  for (const p of possiblePaths) {
-    if (fsSync.existsSync(p)) {
-      return {
-        id: jobId,
-        status: "completed",
-        progress: 100,
-        filePath: p,
-        downloadToken: mem?.downloadToken,
-        expiresAt: mem?.expiresAt,
-      };
-    }
-  }
-
-  // 3. Se ainda em processamento em memória
+  // 2. Se ainda em processamento em memória
   if (mem) {
     return {
       id: jobId,
@@ -209,7 +187,7 @@ export async function getJobStatus(jobId: string) {
     };
   }
 
-  // 4. Verificar banco
+  // 3. Verificar banco antes de escanear disco (preserva downloadToken e expiresAt apos restart)
   const dbJob = await prisma.downloadJob.findUnique({
     where: { id: jobId },
   }).catch(() => null);
@@ -228,6 +206,26 @@ export async function getJobStatus(jobId: string) {
       downloadToken: dbJob.downloadToken || undefined,
       expiresAt: dbJob.expiresAt,
     };
+  }
+
+  // 4. Fallback em disco apenas se não encontrado em memória nem no banco
+  const storageDir = path.resolve(process.env.STORAGE_DIR || "./storage/downloads");
+  const possiblePaths = [
+    path.join(storageDir, `nova_${jobId}.mp4`),
+    path.join(storageDir, `nova_${jobId}.mp3`),
+    path.join(storageDir, `nova_${jobId}.m4a`),
+    path.join(storageDir, `nova_${jobId}.webm`),
+  ];
+
+  for (const p of possiblePaths) {
+    if (fsSync.existsSync(p)) {
+      return {
+        id: jobId,
+        status: "completed",
+        progress: 100,
+        filePath: p,
+      };
+    }
   }
 
   return null;
