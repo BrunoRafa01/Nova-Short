@@ -104,7 +104,7 @@ export function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-white/10 bg-[#07080B]/95 backdrop-blur-xl px-4 py-4 space-y-1.5 animate-fade-in">
+        <div className="md:hidden border-b border-zinc-800 bg-[#09090B] px-4 py-4 space-y-1.5">
           {navLinks.map((item) => {
             const Icon = item.icon;
             const active = isItemActive(item.href);
@@ -113,10 +113,10 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors ${
+                className={`flex items-center justify-between px-3.5 py-2.5 rounded-md text-xs font-medium transition-colors ${
                   active
-                    ? "bg-[#111622] text-[#F8FAFC] border border-white/10"
-                    : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/5"
+                    ? "bg-zinc-900 text-zinc-50 border border-zinc-800"
+                    : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60"
                 }`}
               >
                 <div className="flex items-center space-x-2.5">

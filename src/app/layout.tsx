@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 
 export const viewport: Viewport = {
-  themeColor: "#07080B",
+  themeColor: "#09090B",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,

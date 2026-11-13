@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Plataforma de alta performance para encurtamento inteligente de URLs e download seguro de mídias.",
     start_url: "/",
     display: "standalone",
-    background_color: "#07080B",
-    theme_color: "#07080B",
+    background_color: "#09090B",
+    theme_color: "#09090B",
     orientation: "portrait-primary",
     icons: [
       {
