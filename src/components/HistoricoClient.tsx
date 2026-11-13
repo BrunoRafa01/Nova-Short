@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { History, Link2, ExternalLink, Trash2, BarChart2, QrCode, Search, RefreshCw, Download, Video, Music, Clock } from "lucide-react";
+import { Link2, ExternalLink, Trash2, BarChart2, QrCode, Search, RefreshCw, Download, Video, Music, Clock } from "lucide-react";
 import { CopyButton } from "@/components/CopyButton";
 import { QRCodeModal } from "@/components/QRCodeModal";
 import QRCode from "qrcode";
@@ -36,13 +36,15 @@ export interface DownloadItem {
 
 interface HistoricoClientProps {
   initialLinks?: LinkItem[];
+  initialDbOffline?: boolean;
 }
 
-export function HistoricoClient({ initialLinks = [] }: HistoricoClientProps) {
+export function HistoricoClient({ initialLinks = [], initialDbOffline = false }: HistoricoClientProps) {
   const [activeTab, setActiveTab] = useState<"links" | "downloads">("links");
   const [links, setLinks] = useState<LinkItem[]>(initialLinks);
   const [downloads, setDownloads] = useState<DownloadItem[]>([]);
-  const [loading, setLoading] = useState(initialLinks.length === 0);
+  const [loading, setLoading] = useState(!initialDbOffline && initialLinks.length === 0);
+  const [dbOffline, setDbOffline] = useState(initialDbOffline);
   const [search, setSearch] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedQR, setSelectedQR] = useState<{ url: string; slug: string } | null>(null);
@@ -67,9 +69,12 @@ export function HistoricoClient({ initialLinks = [] }: HistoricoClientProps) {
       const data = await res.json();
       if (res.ok && data.links) {
         setLinks(data.links);
+        setDbOffline(false);
+      } else if (res.status >= 500) {
+        setDbOffline(true);
       }
-    } catch (err) {
-      console.error("Erro ao carregar links:", err);
+    } catch {
+      setDbOffline(true);
     } finally {
       setLoading(false);
     }
@@ -82,9 +87,12 @@ export function HistoricoClient({ initialLinks = [] }: HistoricoClientProps) {
       const data = await res.json();
       if (res.ok && data.downloads) {
         setDownloads(data.downloads);
+        setDbOffline(false);
+      } else if (res.status >= 500) {
+        setDbOffline(true);
       }
-    } catch (err) {
-      console.error("Erro ao carregar downloads:", err);
+    } catch {
+      setDbOffline(true);
     } finally {
       setLoading(false);
     }
@@ -127,16 +135,12 @@ export function HistoricoClient({ initialLinks = [] }: HistoricoClientProps) {
   };
 
   return (
-    <div className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    <div className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 mb-6 border-b border-zinc-800">
         <div>
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#0E121B] border border-white/10 text-[11px] text-[#94A3B8] mb-2 tracking-wide">
-            <History className="w-3.5 h-3.5" />
-            <span>CENTRAL DE REGISTROS</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#F8FAFC]">Histórico de Atividades</h1>
-          <p className="text-xs sm:text-sm text-[#94A3B8] mt-1">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-50">Histórico de Atividades</h1>
+          <p className="text-sm text-zinc-400 mt-1">
             Links encurtados com telemetria e downloads processados recentemente.
           </p>
         </div>
@@ -146,23 +150,30 @@ export function HistoricoClient({ initialLinks = [] }: HistoricoClientProps) {
             type="button"
             onClick={() => (activeTab === "links" ? fetchLinks() : fetchDownloads())}
             disabled={loading}
-            className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-[#0E121B] border border-white/10 hover:border-white/20 text-xs font-medium text-[#F8FAFC] transition-colors disabled:opacity-40 cursor-pointer"
+            className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs font-medium text-zinc-100 transition-colors disabled:opacity-40 cursor-pointer"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-[#3B82F6]" : ""}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-zinc-400" : ""}`} />
             <span>Atualizar</span>
           </button>
         </div>
       </div>
 
+      {dbOffline && (
+        <div className="mb-6 p-3.5 rounded-md bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 flex items-center justify-between gap-3">
+          <span>Banco de dados PostgreSQL offline no ambiente local. Inicie o serviço para listar registros persistidos.</span>
+          <span className="font-mono text-[11px] text-zinc-500 shrink-0">DB: OFFLINE</span>
+        </div>
+      )}
+
       {/* Tabs */}
-      <div className="flex border-b border-white/5 mb-6">
+      <div className="flex border-b border-zinc-800 mb-6">
         <button
           type="button"
           onClick={() => setActiveTab("links")}
           className={`cursor-pointer pb-3 px-4 text-xs sm:text-sm font-medium flex items-center space-x-2 border-b-2 transition-colors ${
             activeTab === "links"
-              ? "border-[#3B82F6] text-[#F8FAFC]"
-              : "border-transparent text-[#64748B] hover:text-[#94A3B8]"
+              ? "border-zinc-50 text-zinc-50"
+              : "border-transparent text-zinc-500 hover:text-zinc-300"
           }`}
         >
           <Link2 className="w-4 h-4" />

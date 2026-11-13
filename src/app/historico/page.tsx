@@ -8,6 +8,7 @@ export default async function HistoricoPage() {
   const appUrl = getBaseAppUrl();
 
   let initialLinks: LinkItem[] = [];
+  let dbOffline = false;
   try {
     const rawLinks = await prisma.shortLink.findMany({
       where: { isActive: true },
@@ -26,9 +27,10 @@ export default async function HistoricoPage() {
       expiresAt: l.expiresAt ? l.expiresAt.toISOString() : undefined,
       createdAt: l.createdAt.toISOString(),
     }));
-  } catch (err) {
-    console.error("Falha ao obter links do servidor para o histórico:", err);
+  } catch {
+    dbOffline = true;
+    console.warn("Banco de dados indisponível ao carregar histórico inicial.");
   }
 
-  return <HistoricoClient initialLinks={initialLinks} />;
+  return <HistoricoClient initialLinks={initialLinks} initialDbOffline={dbOffline} />;
 }
