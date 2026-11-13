@@ -51,14 +51,14 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#09090B] border-b border-zinc-800">
+    <header className="sticky top-0 z-50 w-full bg-[#0E1F19]/90 border-b border-white/10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand / Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-md bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-50 group-hover:border-zinc-700 transition-colors">
+          <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white group-hover:bg-white/15 transition-colors">
             <span className="text-xs font-bold tracking-tight font-mono">N</span>
           </div>
-          <span className="font-semibold text-sm tracking-tight text-zinc-50">
+          <span className="font-semibold text-sm tracking-tight text-white">
             Nova Short
           </span>
         </Link>
@@ -72,10 +72,10 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-2 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   active
-                    ? "bg-zinc-900 text-zinc-50 border border-zinc-800"
-                    : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900/60 border border-transparent"
+                    ? "bg-white/15 text-white border border-white/20"
+                    : "text-emerald-100/70 hover:text-white hover:bg-white/10 border border-transparent"
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />

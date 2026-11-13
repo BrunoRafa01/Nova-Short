@@ -135,12 +135,12 @@ export function HistoricoClient({ initialLinks = [], initialDbOffline = false }:
   };
 
   return (
-    <div className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    <div className="flex-1 w-full">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 mb-6 border-b border-zinc-800">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 mb-6 border-b border-[#111815]/10">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-50">Histórico de Atividades</h1>
-          <p className="text-sm text-zinc-400 mt-1">
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#111815]">Histórico de Atividades</h1>
+          <p className="text-sm text-[#465750] mt-1">
             Links encurtados com telemetria e downloads processados recentemente.
           </p>
         </div>
@@ -150,30 +150,30 @@ export function HistoricoClient({ initialLinks = [], initialDbOffline = false }:
             type="button"
             onClick={() => (activeTab === "links" ? fetchLinks() : fetchDownloads())}
             disabled={loading}
-            className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs font-medium text-zinc-100 transition-colors disabled:opacity-40 cursor-pointer"
+            className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-[#111815]/10 hover:border-[#111815]/25 text-xs font-medium text-[#111815] transition-colors disabled:opacity-40 cursor-pointer"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-zinc-400" : ""}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin text-[#1F5B48]" : ""}`} />
             <span>Atualizar</span>
           </button>
         </div>
       </div>
 
       {dbOffline && (
-        <div className="mb-6 p-3.5 rounded-md bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 flex items-center justify-between gap-3">
+        <div className="mb-6 p-3.5 rounded-xl bg-white/80 border border-[#111815]/10 text-xs text-[#111815] flex items-center justify-between gap-3">
           <span>Banco de dados PostgreSQL offline no ambiente local. Inicie o serviço para listar registros persistidos.</span>
-          <span className="font-mono text-[11px] text-zinc-500 shrink-0">DB: OFFLINE</span>
+          <span className="font-mono text-[11px] text-[#5C6D66] shrink-0">DB: OFFLINE</span>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex border-b border-zinc-800 mb-6">
+      <div className="flex border-b border-[#111815]/10 mb-6">
         <button
           type="button"
           onClick={() => setActiveTab("links")}
-          className={`cursor-pointer pb-3 px-4 text-xs sm:text-sm font-medium flex items-center space-x-2 border-b-2 transition-colors ${
+          className={`cursor-pointer pb-3 px-4 text-xs sm:text-sm font-semibold flex items-center space-x-2 border-b-2 transition-colors ${
             activeTab === "links"
-              ? "border-zinc-50 text-zinc-50"
-              : "border-transparent text-zinc-500 hover:text-zinc-300"
+              ? "border-[#111815] text-[#111815]"
+              : "border-transparent text-[#5C6D66] hover:text-[#111815]"
           }`}
         >
           <Link2 className="w-4 h-4" />
