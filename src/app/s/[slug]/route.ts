@@ -287,7 +287,6 @@ export async function POST(
     }
 
     // Coleta de telemetria anônima
-    const ip = getClientIp(req.headers);
     const ipHash = crypto.createHash("sha256").update(ip + "nova_salt").digest("hex").slice(0, 16);
     const userAgent = req.headers.get("user-agent") || "";
     const referer = req.headers.get("referer") || "Direto";
